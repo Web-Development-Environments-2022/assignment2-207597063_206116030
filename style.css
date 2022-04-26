@@ -1,3 +1,60 @@
-#menu {
-    display: none;
+body{
+    background-color:black;
 }
+#title{
+    display: inline-block;
+    font-family: cursive;
+    color: azure;
+    text-align: center;
+    margin-left: 12px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 40px;
+}
+#writers{
+    color: azure;
+    text-align: center;
+    font-size: 50px;
+    margin-top: 0px;
+
+
+}
+#header-img2{
+    position: absolute;
+    right: 0px;
+
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:cyan;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: orange;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color:deeppink;
+  }
+
+  .user-label{
+      color:aliceblue
+  }
+
+  #footer{
+      background-color: cyan;
+      text-align: center;
+      font-size: 20px;
+  }
