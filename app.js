@@ -6,14 +6,37 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var user = ""
 
-$(document).ready(function() {
+$(document).ready(welcome())
+
+function Game(){
 	var game = document.getElementById("game");
 	game.style.display = "none";
-	//context = canvas.getContext("2d");
-	//Start();
+	context = canvas.getContext("2d");
+	Start();
+}
 
-});
+function welcome(){
+	var welcome = document.getElementById("welcome");
+	welcome.style.display = "block";
+	var login = document.getElementById("Login");
+	login.style.display = "none";
+	var Unregistered = document.getElementById("Unregistered");
+	Unregistered.style.display = "none";
+	var register = document.getElementById("Register");
+	register.style.display = "none";
+	var alredySignin = document.getElementById("alredySignin");
+	alredySignin.style.display = "none";
+}
+
+
+
+$( function() {
+	$( "#birthday" ).datepicker();
+  } );
+
+
 
 function Start() {
 	board = new Array();
@@ -172,4 +195,31 @@ function UpdatePosition() {
 	} else {
 		Draw();
 	}
+}
+
+function showRegister(){
+	var welcome = document.getElementById("welcome");
+	welcome.style.display = "none";
+	var login = document.getElementById("Login");
+	login.style.display = "none";
+	var Unregistered = document.getElementById("Unregistered");
+	Unregistered.style.display = "none";
+	var register = document.getElementById("Register");
+	register.style.display = "block";
+	var alredySignin = document.getElementById("alredySignin");
+	alredySignin.style.display = "block";
+}
+
+function showLogin(){
+	var welcome = document.getElementById("welcome");
+	welcome.style.display = "none";
+	var register = document.getElementById("Register");
+	register.style.display = "none";
+	var alredySignin = document.getElementById("alredySignin");
+	alredySignin.style.display = "none";
+	var login = document.getElementById("Login");
+	login.style.display = "block";
+	var Unregistered = document.getElementById("Unregistered");
+	Unregistered.style.display = "block";
+	
 }

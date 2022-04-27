@@ -7,6 +7,7 @@
 	</head>
 
 	<body>
+		
 		<div id="header">
 			<img id="header-img1" src="images/pacLogo.jpg" />
 			<img id="header-img2" src="images/pacLogo.jpg" />
@@ -16,47 +17,91 @@
 		</div>
 		<div id="menu" >
 			<ul>
-				<li><a href="#score"><b>Welcome</b></a></li>
-				<li><a href="#score"><b>Register</b></a></li>
-				<li><a href="#score"><b>Login</b></a></li>
-				<li><a href="#score"><b>About</b></a></li>
+				<li><a href="#welcome" onclick="welcome()"><b>Welcome</b></a></li>
+				<li><a href="#Register" onclick="showRegister()"><b>Register</b></a></li>
+				<li><a href="#Login" onclick="showLogin()"><b>Login</b></a></li>
+				<li><a href="#" onclick=""><b>About</b></a></li>
 			</ul>
 		</div>
 
 		<div id="welcome" style="text-align: center;">
 			<h1> Welcome to the best Pac-man game!!</h1>
-			<input type="button" id="btnShowRegister" value="Register" style="background-image: url('images/pacLogo.jpg');" />
-			<input type="button" id="btnShowLogin" value="Login" style="background-image: url('images/login.jpg');" />
-			<script type="text/javascript">
-				$("#btnShowRegister").click(function ()
-				{
-					var welcome = document.getElementById("welcome");
-					welcome.style.display = "none";
-					var register = document.getElementById("Register");
-					register.style.display = "block";
-				});
+			<input type="button" id="btnShowRegister" onclick="showRegister()" style="background-image: url('images/signUp.png'); background-size: cover; " />
+			<input type="button" id="btnShowLogin" onclick="showLogin()" style="background-image: url('images/Login.png'); background-size: cover;" />
 
-				$("#btnShowLogin").click(function ()
-				{
-					var welcome = document.getElementById("welcome");
-					welcome.style.display = "none";
-					var login = document.getElementById("Login");
-					login.style.display = "block";
-				});				
-			</script>
 		</div>
 
-		<div class="hide" id="Register" hidden>
-			<h1>
-				registerrr
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
+		<div id="Register" class="container" hidden>
+			
+			<h1 style="color: black;">
+				Sign up for free
 			</h1>
+			<hr>
+			<label for="user"><b>User name</b></label>
+			<br/>
+    		<input type="text" placeholder="Enter User name" name="user" id="userReg" required>
+			<br/>
+
+			<label for="psw"><b>Password</b></label>
+			<br/>
+			<input type="password" placeholder="Enter Password" name="psw" id="pswReg" required>
+			<br/>
+
+			<label for="name"><b>Full name</b></label>
+			<br/>
+			<input type="text" placeholder="Enter name" name="name" id="nameReg" required>
+			<br/>
+
+			<label for="email"><b>Email</b></label>
+			<br/>
+    		<input type="email" placeholder="Enter Email" name="email" id="emailReg" required>
+			<br/>
+			
+			<label for="birthday"><b>Birthday</b></label>
+			<br/>
+    		<input type="birthday" placeholder="Enter birthday" name="birthday" id="birthdayReg" required>
+			<br/>
+
+			<button type="submit" class="registerbtn" style=" height: 40px; width: 100px;">Register</button>
+
 		</div>
 
-		<div class="hide" id="Login" hidden>
-			<h1>
-				loginnnnn
-			</h1>
+		<div id="alredySignin" class="container AlredySignin" hidden>
+			<p>Already have an account? <a href="#" onclick="showLogin()">Sign in</a>.</p>
 		</div>
+		</form>
+
+		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
+		<div id="Login" class="container" style="background-color: #35d252;" hidden>
+			<h1 style="color: black;">
+				welcome back!
+			</h1>
+			<hr>
+			<label for="user"><b>User name</b></label>
+			<br/>
+    		<input type="text" placeholder="Enter User name" name="user" id="userLogin" required>
+			<br/>
+
+			<label for="psw"><b>Password</b></label>
+			<br/>
+			<input type="password" placeholder="Enter Password" name="psw" id="pswLogin" required>
+			<br/>
+
+
+			<button type="submit" class="registerbtn" style=" height: 40px; width: 100px;">Register</button>
+
+		</div>
+
+		<div id="Unregistered" class="container Unregistered" hidden>
+			<p>Not yet registered? <a href="#" onclick="showRegister()">Register</a>.</p>
+		</div>
+		</form>
 
 		<div id="score" hidden>
 			<label class="user-label" for="lblScore">SCORE:</label>
