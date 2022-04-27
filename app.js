@@ -11,32 +11,24 @@ var user = ""
 $(document).ready(welcome())
 
 function Game(){
+	unShowAll();
 	var game = document.getElementById("game");
-	game.style.display = "none";
+	game.style.display = "block";
+	var score = document.getElementById("score");
+	score.style.display = "block";
+	var time = document.getElementById("time");
+	time.style.display = "block";
 	context = canvas.getContext("2d");
 	Start();
+	window.location.href='#game';
 }
 
 function welcome(){
+	unShowAll();
 	var welcome = document.getElementById("welcome");
 	welcome.style.display = "block";
-	var login = document.getElementById("Login");
-	login.style.display = "none";
-	var Unregistered = document.getElementById("Unregistered");
-	Unregistered.style.display = "none";
-	var register = document.getElementById("Register");
-	register.style.display = "none";
-	var alredySignin = document.getElementById("alredySignin");
-	alredySignin.style.display = "none";
+	window.location.href='#welcome';
 }
-
-
-
-$( function() {
-	$( "#birthday" ).datepicker();
-  } );
-
-
 
 function Start() {
 	board = new Array();
@@ -197,7 +189,15 @@ function UpdatePosition() {
 	}
 }
 
-function showRegister(){
+
+
+
+$( function() {
+	$( "#birthday" ).datepicker();
+  } );
+
+
+function unShowAll(){
 	var welcome = document.getElementById("welcome");
 	welcome.style.display = "none";
 	var login = document.getElementById("Login");
@@ -205,21 +205,31 @@ function showRegister(){
 	var Unregistered = document.getElementById("Unregistered");
 	Unregistered.style.display = "none";
 	var register = document.getElementById("Register");
-	register.style.display = "block";
-	var alredySignin = document.getElementById("alredySignin");
-	alredySignin.style.display = "block";
-}
-
-function showLogin(){
-	var welcome = document.getElementById("welcome");
-	welcome.style.display = "none";
-	var register = document.getElementById("Register");
 	register.style.display = "none";
 	var alredySignin = document.getElementById("alredySignin");
 	alredySignin.style.display = "none";
+	var game = document.getElementById("game");
+	game.style.display = "none";
+	var score = document.getElementById("score");
+	score.style.display = "none";
+	var time = document.getElementById("time");
+	time.style.display = "none";
+}
+
+function showRegister(){
+	unShowAll();
+	var register = document.getElementById("Register");
+	register.style.display = "block";
+	var alredySignin = document.getElementById("alredySignin");
+	alredySignin.style.display = "block";
+	window.location.href='#Register';
+}
+
+function showLogin(){
+	unShowAll();
 	var login = document.getElementById("Login");
 	login.style.display = "block";
 	var Unregistered = document.getElementById("Unregistered");
 	Unregistered.style.display = "block";
-	
+	window.location.href='#Login';
 }

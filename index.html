@@ -26,8 +26,8 @@
 
 		<div id="welcome" style="text-align: center;">
 			<h1> Welcome to the best Pac-man game!!</h1>
-			<input type="button" id="btnShowRegister" onclick="showRegister()" style="background-image: url('images/signUp.png'); background-size: cover; " />
-			<input type="button" id="btnShowLogin" onclick="showLogin()" style="background-image: url('images/Login.png'); background-size: cover;" />
+			<input type="button" id="btnShowRegister" value="Register" onclick="showRegister()" style="background-image: url('images/signup_icon.png'); background-repeat: no-repeat; border: double; font-weight: bolder; font-size: larger;" />
+			<input type="button" id="btnShowLogin" value="Login" onclick="showLogin()" style="background-image: url('images/login_icon.png'); background-repeat: no-repeat; border: double; font-weight: bolder; font-size: larger;" />
 
 		</div>
 
@@ -68,17 +68,17 @@
     		<input type="birthday" placeholder="Enter birthday" name="birthday" id="birthdayReg" required>
 			<br/>
 
-			<button type="submit" class="registerbtn" style=" height: 40px; width: 100px;">Register</button>
+			<button type="submit" id="registerbtn" style=" height: 40px; width: 100px; font-weight: bolder;">Register</button>
 
 		</div>
 
 		<div id="alredySignin" class="container AlredySignin" hidden>
-			<p>Already have an account? <a href="#" onclick="showLogin()">Sign in</a>.</p>
+			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
 		</div>
 		</form>
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
-		<div id="Login" class="container" style="background-color: #35d252;" hidden>
+		<div id="Login" class="container" hidden>
 			<h1 style="color: black;">
 				welcome back!
 			</h1>
@@ -94,12 +94,12 @@
 			<br/>
 
 
-			<button type="submit" class="registerbtn" style=" height: 40px; width: 100px;">Register</button>
+			<button type="submit" id="loginbtn" style=" height: 40px; width: 100px; font-weight: bolder;">Login</button>
 
 		</div>
 
 		<div id="Unregistered" class="container Unregistered" hidden>
-			<p>Not yet registered? <a href="#" onclick="showRegister()">Register</a>.</p>
+			<p>Not yet registered? <a href="#Register" onclick="showRegister()">Register</a>.</p>
 		</div>
 		</form>
 
