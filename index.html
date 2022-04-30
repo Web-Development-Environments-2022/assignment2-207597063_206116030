@@ -2,8 +2,11 @@
 <html>
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
-		<script type="text/javascript" src="./app.js"></script>
 		<link rel="stylesheet" type="text/css"  href="style.css" /> 
+		<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script> -->
 	</head>
 
 	<body>
@@ -13,73 +16,117 @@
 			<img id="header-img2" src="images/pacLogo.jpg" />
 
 			<h1 id="title">Pac-man 2.0</h1>
+			<br>
+			<br>
+
 			<h3 id="writers">Yuval felendler&Amit partuk</h3>
 		</div>
+
+
+
 		<div id="menu" >
 			<ul>
 				<li><a href="#welcome" onclick="welcome()"><b>Welcome</b></a></li>
 				<li><a href="#Register" onclick="showRegister()"><b>Register</b></a></li>
 				<li><a href="#Login" onclick="showLogin()"><b>Login</b></a></li>
-				<li><a href="#" onclick=""><b>About</b></a></li>
+				<li><a href="#about" onclick="showAbout()"><b>About</b></a></li>
 			</ul>
 		</div>
 
-		<div id="welcome" style="text-align: center;">
-			<h1> Welcome to the best Pac-man game!!</h1>
-			<input type="button" id="btnShowRegister" value="Register" onclick="showRegister()" style="background-image: url('images/signup_icon.png'); background-repeat: no-repeat; border: double; font-weight: bolder; font-size: larger;" />
-			<input type="button" id="btnShowLogin" value="Login" onclick="showLogin()" style="background-image: url('images/login_icon.png'); background-repeat: no-repeat; border: double; font-weight: bolder; font-size: larger;" />
+
+
+		<div id="welcome">
+			<h1 id="welcome-header"> Welcome to the best Pac-man game!!</h1>
+			<input type="button" id="btnShowRegister" value="Register" onclick="showRegister()" />
+			<input type="button" id="btnShowLogin" value="Login" onclick="showLogin()" />
 
 		</div>
 
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-		<link rel="stylesheet" href="/resources/demos/style.css">
-		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
 		<div id="Register" class="container" hidden>
+			<h1>Sign up for free</h1>
+
+			<p>
+				<strong>User name: </strong>
+				<input type="text" id="username" name="username">
+			</p>
+			<p>
+				<strong>password: </strong>
+				<input type="password" id="password" name="password">
+			</p>
+			<p>
+				<strong>Full name: </strong>
+				<input type="text" id="fullname" name="fullname">
+			</p>
+			<p>
+				<strong>Email: </strong>
+				<input type="text" id="mail" name="mail">
+			</p>
+			<p>
+				<strong>Date of Birth: </strong>
+				<input type="date" id="date" name="date">
+			</p>
+
+			<p>
+				<button type="submit" id="registerbtn" onclick="registerComplete()">Register</button>
+			</p>
+		</div>
+		
+		</form>
+		
+		<!-- <form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
+		<div id="Register" class="container" hidden>
 			
-			<h1 style="color: black;">
+			<h1 >
 				Sign up for free
 			</h1>
 			<hr>
 			<label for="user"><b>User name</b></label>
 			<br/>
+
     		<input type="text" placeholder="Enter User name" name="user" id="userReg" required>
 			<br/>
 
 			<label for="psw"><b>Password</b></label>
 			<br/>
+
 			<input type="password" placeholder="Enter Password" name="psw" id="pswReg" required>
 			<br/>
 
 			<label for="name"><b>Full name</b></label>
 			<br/>
+
 			<input type="text" placeholder="Enter name" name="name" id="nameReg" required>
 			<br/>
 
 			<label for="email"><b>Email</b></label>
 			<br/>
+
     		<input type="email" placeholder="Enter Email" name="email" id="emailReg" required>
 			<br/>
 			
-			<label for="birthday"><b>Birthday</b></label>
-			<br/>
-    		<input type="birthday" placeholder="Enter birthday" name="birthday" id="birthdayReg" required>
+			<label for="birthday"><b>Date of birth</b></label>
 			<br/>
 
-			<button type="submit" id="registerbtn" style=" height: 40px; width: 100px; font-weight: bolder;">Register</button>
+    		<input type="date" placeholder="Enter birthday" name="birthday" id="birthdayReg" required>
+			<br/>
 
-		</div>
+			<button type="submit" id="registerbtn" onclick="registerComplete()">Register</button>
+
+		</div> -->
+
+
 
 		<div id="alredySignin" class="container AlredySignin" hidden>
 			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
 		</div>
 		</form>
 
+
+
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
 		<div id="Login" class="container" hidden>
-			<h1 style="color: black;">
+			<h1>
 				welcome back!
 			</h1>
 			<hr>
@@ -94,32 +141,50 @@
 			<br/>
 
 
-			<button type="submit" id="loginbtn" style=" height: 40px; width: 100px; font-weight: bolder;">Login</button>
+			<button type="submit" id="loginbtn" >Login</button>
 
 		</div>
+
+
 
 		<div id="Unregistered" class="container Unregistered" hidden>
 			<p>Not yet registered? <a href="#Register" onclick="showRegister()">Register</a>.</p>
 		</div>
 		</form>
 
+
+		<div id="about" class="modal">
+			<div class="modal-content">
+			  <span class="close" onclick="closeModel()">&times;</span>
+			  <p>This is our about window</p>
+			</div>
+		  </div>
+
+
 		<div id="score" hidden>
 			<label class="user-label" for="lblScore">SCORE:</label>
 			<input id="lblScore" type="text" />
 		</div>
+
+
 		<div id="time" hidden>
 			<label class="user-label" for="lblTime">TIME:</label>
 			<input id="lblTime" type="text" />
 		</div>
+
+
 		<div id="game" hidden>
 			<canvas id="canvas" height="600" width="600"></canvas>
 		</div>
+
+
 		<div id="footer">
 			<h3>The website was created by Yuval&Amit - contect us via mail</h3>
 			<h3>Yuval felendler - Yuvalf301@gmail.com</h3>
 			<h3>Amit partuk - amit@gmail.com</h3>
 
 		</div>
+		<script type="text/javascript" src="./app.js"></script>
 
 	</body>
 </html>

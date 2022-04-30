@@ -7,6 +7,20 @@ var start_time;
 var time_elapsed;
 var interval;
 var user = ""
+var modelOn=false;
+//array of users
+var users = [
+	//default user
+	{
+	  "username": "k",
+	  "password": "k",
+	  "fullname": "k",
+	  "mail": "k@gmail.com",
+	  "date": new Date('2017-01-03')
+	}
+]
+
+
 
 $(document).ready(welcome())
 
@@ -191,12 +205,6 @@ function UpdatePosition() {
 
 
 
-
-$( function() {
-	$( "#birthday" ).datepicker();
-  } );
-
-
 function unShowAll(){
 	var welcome = document.getElementById("welcome");
 	welcome.style.display = "none";
@@ -232,4 +240,76 @@ function showLogin(){
 	var Unregistered = document.getElementById("Unregistered");
 	Unregistered.style.display = "block";
 	window.location.href='#Login';
+}
+
+
+// opens the model
+function showAbout(){
+	var modal = document.getElementById("about");
+	modal.style.display = "block";
+	modelOn=true;
+}
+// closes the model
+function closeModel(){
+	var modal = document.getElementById("about");
+	modal.style.display = "none";
+	modelOn=false;
+}
+
+// add an event listner for pressing escape to close the model window
+// document.addEventListener("keydown", function(event) {
+//     if (keysDown[27]) {
+// 		closeModel()
+//     }
+// });
+// add an event listner for click to close the model window
+//document.addEventListener("click",closeModel,false);
+
+
+function registerComplete(){
+	var rgularExp = {
+        containsNumber : /\d+/,
+        containsAlphabet : /[a-zA-Z]/,
+        onlyLetters : /^[A-Za-z]+$/,
+    }
+	var isOk=true;
+	var pass=$("#password").value();
+	var fullname=$("#fullname").value();
+	var mail=$("#mail").value();
+	var date=$("#date").value();
+	var username=$("#username").value();
+
+	//check all fileds are not empty 
+	if(pass.length==0 || fullname.length==0 || mail.length==0 || username.length==0 || date.length==0){
+		isOk=false;
+	}
+
+	//check password - longer then 6 and has numeric and alphabetic
+	else if (pass.length < 6 || !rgularExp.containsNumber.test(pass) || !rgularExp.containsAlphabet.test(pass)){
+		isOk=false;
+	}
+
+	//check valid mail
+	else if(!mail.contains("@")){
+		isOk=false;
+	}
+
+	//check name has no numbers
+	else if(rgularExp.containsNumber.test(fullname)){
+		isOk=false;
+	}
+	// if not ok - go back to register and change
+	if(!isOk){
+		showRegister()
+		console.log("false");
+	}
+	// if ok - go to login
+	else{
+		//insert new user to the users array 
+		//go to login page
+		showLogin()
+		console.log("true");
+
+	}
+
 }
