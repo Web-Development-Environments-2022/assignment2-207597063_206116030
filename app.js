@@ -6,23 +6,24 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
-var user = ""
+user = "";
 var modelOn=false;
 //array of users
-var users = [
-	//default user
+ users = [
+	//defult user
 	{
-	  "username": "k",
-	  "password": "k",
-	  "fullname": "k",
-	  "mail": "k@gmail.com",
-	  "date": new Date('2017-01-03')
-	}
-]
+		"username": "k",
+		"password": "k",
+		"fullname": "k",
+		"mail": "k@gmail.com",
+		"date": new Date('2017-01-03')
+	  }
+];
 
-
-
-$(document).ready(welcome())
+$(document).ready(function() {
+	window.localStorage
+	welcome();
+});
 
 function Game(){
 	unShowAll();
@@ -245,6 +246,10 @@ function showLogin(){
 
 // opens the model
 function showAbout(){
+	console.log(users.toString());
+	for (let i = 0; i < users.length; i++) {
+		console.log(users[i]);
+	}
 	var modal = document.getElementById("about");
 	modal.style.display = "block";
 	modelOn=true;
@@ -266,50 +271,108 @@ function closeModel(){
 //document.addEventListener("click",closeModel,false);
 
 
-function registerComplete(){
+function registerComplete(){ 
 	var rgularExp = {
         containsNumber : /\d+/,
         containsAlphabet : /[a-zA-Z]/,
         onlyLetters : /^[A-Za-z]+$/,
     }
 	var isOk=true;
-	var pass=$("#password").value();
-	var fullname=$("#fullname").value();
-	var mail=$("#mail").value();
-	var date=$("#date").value();
-	var username=$("#username").value();
+	var pass= document.getElementById("password").value;
+	var fullname= document.getElementById("fullname").value;
+	var mail= document.getElementById("mail").value;
+	var date= document.getElementById("date").value;
+	var username= document.getElementById("username").value;
 
 	//check all fileds are not empty 
-	if(pass.length==0 || fullname.length==0 || mail.length==0 || username.length==0 || date.length==0){
+	if(pass.length===0 || fullname.length===0 || mail.length===0 || username.length===0 || date.length===0){
+		alert("You did not fill in one of the details!");
 		isOk=false;
 	}
 
 	//check password - longer then 6 and has numeric and alphabetic
 	else if (pass.length < 6 || !rgularExp.containsNumber.test(pass) || !rgularExp.containsAlphabet.test(pass)){
+		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
 		isOk=false;
 	}
 
 	//check valid mail
-	else if(!mail.contains("@")){
+	else if(!mail.includes("@")){
+		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
 		isOk=false;
 	}
 
 	//check name has no numbers
 	else if(rgularExp.containsNumber.test(fullname)){
+		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
 		isOk=false;
 	}
+
 	// if not ok - go back to register and change
 	if(!isOk){
-		showRegister()
+		alert("is not ok");
+		showRegister();
 		console.log("false");
+		return;
 	}
-	// if ok - go to login
+	// if ok - start game
 	else{
 		//insert new user to the users array 
-		//go to login page
-		showLogin()
+		alert("need to add");
+		users.push({
+			username: username,
+			password: pass,
+			fullname: fullname,
+			mail: mail,
+			date: date
+		});
+		console.log(users[1]);
+		console.log(users.length);
+		alert("added success");
+		user = username;
 		console.log("true");
-
+		Game();
+		
 	}
+	return;
+}
 
+function isUserValid(user, pass) {
+	console.log(users.length);
+	for (let i = 0; i < users.length; i++) {
+		console.log(users[i]);
+		if (users[i].username === user && users[i].password === pass) {
+			return true;
+		}
+	}
+	return false;
+  }
+
+
+function login(){
+	var pass= document.getElementById("pswLogin").value;
+	var user= document.getElementById("userLogin").value;
+
+	//check all fileds are not empty 
+	if(pass.length===0 || user.length===0){
+		console.log("false");
+		alert("You did not enter your user name or password!");
+		showLogin();
+	}
+	else{
+		if (isUserValid(user, pass)) {
+			//alert("good")
+			console.log("true");
+			user = username;
+			Game();
+			return;
+
+		} else {
+			console.log("false");
+			alert("Sorry, wrong username and password!");
+			showLogin();
+			return;
+		}	
+	}
+	return;
 }
