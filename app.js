@@ -8,34 +8,52 @@ var time_elapsed;
 var interval;
 user = "";
 var modelOn=false;
-//array of users
- users = [
-	//defult user
-	{
-		"username": "k",
-		"password": "k",
-		"fullname": "k",
-		"mail": "k@gmail.com",
-		"date": new Date('2017-01-03')
-	  }
-];
+localStorage.clear();
+//default user
+localStorage.setItem("k",JSON.stringify({
+	username: "k",
+	password: "k",
+	fullname: "k",
+	mail: "k@gmail.com",
+	date: new Date('2017-01-03')}));
+
+
 
 $(document).ready(function() {
-	window.localStorage
+
 	welcome();
 });
 
+function unShowAll(){
+	var welcome = document.getElementById("welcome");
+	welcome.style.display = "none";
+	var login = document.getElementById("Login");
+	login.style.display = "none";
+	var Unregistered = document.getElementById("Unregistered");
+	Unregistered.style.display = "none";
+	var register = document.getElementById("Register");
+	register.style.display = "none";
+	var alredySignin = document.getElementById("alredySignin");
+	alredySignin.style.display = "none";
+	var game = document.getElementById("game");
+	game.style.display = "none";
+	var score = document.getElementById("score");
+	score.style.display = "none";
+	var time = document.getElementById("time");
+	time.style.display = "none";
+}
+
 function Game(){
 	unShowAll();
+	context = canvas.getContext("2d");
 	var game = document.getElementById("game");
 	game.style.display = "block";
 	var score = document.getElementById("score");
 	score.style.display = "block";
 	var time = document.getElementById("time");
 	time.style.display = "block";
-	context = canvas.getContext("2d");
-	Start();
 	window.location.href='#game';
+	Start();
 }
 
 function welcome(){
@@ -206,24 +224,7 @@ function UpdatePosition() {
 
 
 
-function unShowAll(){
-	var welcome = document.getElementById("welcome");
-	welcome.style.display = "none";
-	var login = document.getElementById("Login");
-	login.style.display = "none";
-	var Unregistered = document.getElementById("Unregistered");
-	Unregistered.style.display = "none";
-	var register = document.getElementById("Register");
-	register.style.display = "none";
-	var alredySignin = document.getElementById("alredySignin");
-	alredySignin.style.display = "none";
-	var game = document.getElementById("game");
-	game.style.display = "none";
-	var score = document.getElementById("score");
-	score.style.display = "none";
-	var time = document.getElementById("time");
-	time.style.display = "none";
-}
+
 
 function showRegister(){
 	unShowAll();
@@ -246,10 +247,6 @@ function showLogin(){
 
 // opens the model
 function showAbout(){
-	console.log(users.toString());
-	for (let i = 0; i < users.length; i++) {
-		console.log(users[i]);
-	}
 	var modal = document.getElementById("about");
 	modal.style.display = "block";
 	modelOn=true;
@@ -319,15 +316,16 @@ function registerComplete(){
 	else{
 		//insert new user to the users array 
 		alert("need to add");
-		users.push({
-			username: username,
-			password: pass,
-			fullname: fullname,
-			mail: mail,
-			date: date
-		});
-		console.log(users[1]);
-		console.log(users.length);
+		// users.push({
+		// 	username: username,
+		// 	password: pass,
+		// 	fullname: fullname,
+		// 	mail: mail,
+		// 	date: date
+		// });
+
+		localStorage.setItem(username,JSON.stringify({username: username, password: pass,
+			fullname: fullname, mail: mail, date: date}));
 		alert("added success");
 		user = username;
 		console.log("true");
@@ -338,14 +336,26 @@ function registerComplete(){
 }
 
 function isUserValid(user, pass) {
-	console.log(users.length);
-	for (let i = 0; i < users.length; i++) {
-		console.log(users[i]);
-		if (users[i].username === user && users[i].password === pass) {
+	// console.log(users.length);
+	// for (let i = 0; i < users.length; i++) {
+	// 	console.log(users[i]);
+	// 	if (users[i].username === user && users[i].password === pass) {
+	// 		return true;
+	// 	}
+	// }
+
+	const userLS = JSON.parse(localStorage.getItem(user));
+	if (userLS===null){ //user not exist
+		return false;
+	} 
+	else{ //user exist
+		if(userLS.password === pass){ //user and password is match
 			return true;
 		}
+		else{ //password wrong
+			return false;
+		}
 	}
-	return false;
   }
 
 
