@@ -12,14 +12,8 @@
 	<body>
 		
 		<div id="header">
-			<img id="header-img1" src="images/pacLogo.jpg" />
-			<img id="header-img2" src="images/pacLogo.jpg" />
-
-			<h1 id="title">Pac-man 2.0</h1>
-			<br>
-			<br>
-
-			<h3 id="writers">Yuval felendler&Amit partuk</h3>
+			<img id="header-img3" src="images/pacLogo2.jpg" />
+			<h3 id="writers">Yuval felendler & Amit partuk</h3>
 		</div>
 
 
@@ -35,7 +29,7 @@
 
 
 
-		<div id="welcome" hidden>
+		<div id="welcome" >
 			<h1 id="welcome-header"> Welcome to the best Pac-man game!!</h1>
 			<input type="button" id="btnShowRegister" value="Register" onclick="showRegister()" />
 			<input type="button" id="btnShowLogin" value="Login" onclick="showLogin()" />
@@ -43,7 +37,7 @@
 		</div>
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
-		<div id="Register" class="container" hidden>
+		<div id="Register" class="container" hidden >
 			<h1>Sign up for free</h1>
 
 			<p>
@@ -75,7 +69,7 @@
 		</form>
 
 
-		<div id="alredySignin" class="container AlredySignin" hidden>
+		<div id="alredySignin" class="AlredySignin"  hidden>
 			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
 		</div>
 		</form>
@@ -83,7 +77,7 @@
 
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
-		<div id="Login" class="container" hidden>
+		<div id="Login" class="container" hidden >
 			<h1>
 				welcome back!
 			</h1>
@@ -105,7 +99,7 @@
 
 
 
-		<div id="Unregistered" class="container Unregistered" hidden>
+		<div id="Unregistered" class="Unregistered" hidden >
 			<p>Not yet registered? <a href="#Register" onclick="showRegister()">Register</a>.</p>
 		</div>
 		</form>
@@ -119,30 +113,35 @@
 		  </div>
 
 
-		<div id="score" hidden>
+		<div id="score" hidden >
 			<label class="user-label" for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+			<input class="lbl" id="lblScore" type="text" />
 		</div>
 
 
-		<div id="time" hidden>
+		<div id="time" hidden >
 			<label class="user-label" for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+			<input class="lbl" id="lblTime" type="text" />
+		</div>
+
+		<div id="userName" hidden >
+			<label class="user-label" for="lblUser">PLAYER:</label>
+			<input class="lbl" id="lblUser" type="text" />
 		</div>
 
 
-		<div id="game" hidden>
+		<div id="game" hidden >
 			<canvas id="canvas" height="600" width="600"></canvas>
 		</div>
 
 
 		<div id="footer">
-			<h3>The website was created by Yuval&Amit - contect us via mail</h3>
-			<h3>Yuval felendler - Yuvalf301@gmail.com</h3>
-			<h3>Amit partuk - amit@gmail.com</h3>
-
+			<h2 class="footer-head">The website was created by Yuval&Amit</h2>
+			<a class="btn" href="mailto:yuvalf301@gmail.com">CONTACT US</a>
 		</div>
-		<script type="text/javascript" src="./app.js"></script>
+		
+		
+		<script type="text/javascript" src="app.js"></script>
 
 	</body>
 </html>

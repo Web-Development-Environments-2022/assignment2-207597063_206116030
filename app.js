@@ -5,9 +5,11 @@ var score;
 var pac_color;
 var start_time;
 var time_elapsed;
-var interval;
-user = "";
+var interval; 
+var userTitle = "";
 var modelOn=false;
+
+
 localStorage.clear();
 //default user
 localStorage.setItem("k",JSON.stringify({
@@ -17,12 +19,11 @@ localStorage.setItem("k",JSON.stringify({
 	mail: "k@gmail.com",
 	date: new Date('2017-01-03')}));
 
-
-
 $(document).ready(function() {
-
+	alert("did the ready part");
 	welcome();
 });
+
 
 function unShowAll(){
 	var welcome = document.getElementById("welcome");
@@ -39,8 +40,11 @@ function unShowAll(){
 	game.style.display = "none";
 	var score = document.getElementById("score");
 	score.style.display = "none";
+	var userName = document.getElementById("userName");
+	userName.style.display = "none";
 	var time = document.getElementById("time");
 	time.style.display = "none";
+
 }
 
 function Game(){
@@ -52,6 +56,8 @@ function Game(){
 	score.style.display = "block";
 	var time = document.getElementById("time");
 	time.style.display = "block";
+	var userName = document.getElementById("userName");
+	userName.style.display = "block";
 	window.location.href='#game';
 	Start();
 }
@@ -121,6 +127,7 @@ function Start() {
 		false
 	);
 	interval = setInterval(UpdatePosition, 250);
+
 }
 
 function findRandomEmptyCell(board) {
@@ -149,8 +156,9 @@ function GetKeyPressed() {
 }
 
 function Draw() {
-	canvas.width = canvas.width; //clean board
+	//canvas.width = canvas.width; //clean board
 	lblScore.value = score;
+	lblUser.value=userTitle;
 	lblTime.value = time_elapsed;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
@@ -180,9 +188,11 @@ function Draw() {
 			}
 		}
 	}
+
 }
 
 function UpdatePosition() {
+
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) { //up
@@ -258,14 +268,6 @@ function closeModel(){
 	modelOn=false;
 }
 
-// add an event listner for pressing escape to close the model window
-// document.addEventListener("keydown", function(event) {
-//     if (keysDown[27]) {
-// 		closeModel()
-//     }
-// });
-// add an event listner for click to close the model window
-//document.addEventListener("click",closeModel,false);
 
 
 function registerComplete(){ 
@@ -283,31 +285,30 @@ function registerComplete(){
 
 	//check all fileds are not empty 
 	if(pass.length===0 || fullname.length===0 || mail.length===0 || username.length===0 || date.length===0){
-		alert("You did not fill in one of the details!");
+		alert("Please fill in all of the fields!");
 		isOk=false;
 	}
 
 	//check password - longer then 6 and has numeric and alphabetic
 	else if (pass.length < 6 || !rgularExp.containsNumber.test(pass) || !rgularExp.containsAlphabet.test(pass)){
-		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
+		alert("You did not enter details properly! \n\npassword must contain at least 6 characters- numbers and letters.");
 		isOk=false;
 	}
 
 	//check valid mail
 	else if(!mail.includes("@")){
-		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
+		alert("You did not enter details properly! \n\nMail address is not a valid mail address.");
 		isOk=false;
 	}
 
 	//check name has no numbers
 	else if(rgularExp.containsNumber.test(fullname)){
-		alert("You did not enter details properly! \n\npassword at least 6 characters, must contain numbers and letters \nEmail contains @ \nFull name contains only letters");
+		alert("You did not enter details properly! \n\nFull name must contain only letters.");
 		isOk=false;
 	}
 
 	// if not ok - go back to register and change
 	if(!isOk){
-		alert("is not ok");
 		showRegister();
 		console.log("false");
 		return;
@@ -315,20 +316,9 @@ function registerComplete(){
 	// if ok - start game
 	else{
 		//insert new user to the users array 
-		alert("need to add");
-		// users.push({
-		// 	username: username,
-		// 	password: pass,
-		// 	fullname: fullname,
-		// 	mail: mail,
-		// 	date: date
-		// });
-
 		localStorage.setItem(username,JSON.stringify({username: username, password: pass,
 			fullname: fullname, mail: mail, date: date}));
 		alert("added success");
-		user = username;
-		console.log("true");
 		Game();
 		
 	}
@@ -336,13 +326,6 @@ function registerComplete(){
 }
 
 function isUserValid(user, pass) {
-	// console.log(users.length);
-	// for (let i = 0; i < users.length; i++) {
-	// 	console.log(users[i]);
-	// 	if (users[i].username === user && users[i].password === pass) {
-	// 		return true;
-	// 	}
-	// }
 
 	const userLS = JSON.parse(localStorage.getItem(user));
 	if (userLS===null){ //user not exist
@@ -365,15 +348,14 @@ function login(){
 
 	//check all fileds are not empty 
 	if(pass.length===0 || user.length===0){
-		console.log("false");
 		alert("You did not enter your user name or password!");
 		showLogin();
 	}
 	else{
 		if (isUserValid(user, pass)) {
-			//alert("good")
 			console.log("true");
-			user = username;
+			alert("you entered everything ok");
+			userTitle = user;
 			Game();
 			return;
 
