@@ -11,6 +11,7 @@ var angShape=new Object();
 var board;
 var score;
 var audio = new Audio('images/song.mp3');
+audio.loop = true;
 var pac_color;
 var start_time;
 var time_elapsed;
@@ -21,6 +22,18 @@ var numOfLifes=5;
 var lastPrased=4;
 var hasClock=false;
 var hasMed=false;
+
+//settings
+var key_up;
+var key_down;
+var key_right;
+var key_left;
+var food_remain = Math.floor(Math.random() * 41) + 50; // food (50-90);
+var color5points;
+var color15points;
+var color25points;
+var time_settings;
+var monsters_settings;
 
 //load images
 const monster1=new Image();
@@ -52,6 +65,46 @@ $(document).ready(function() {
 });
 
 
+//settings
+function saveSettings(){
+	food_remain = window.getElementById("amountFoodSettings").value;
+	color5points = window.getElementById("5_points").value;
+	color15points = window.getElementById("15_points").value;
+	color25points = window.getElementById("25_points").value;
+	time_settings = window.getElementById("time_settings").value;
+	monsters_settings = window.getElementById("monsters_amount_settings").value;
+}
+
+function random_settings(){
+	key_up = 38;
+	key_down = 40;
+	key_right = 39;
+	key_left = 37;
+
+	food_remain = Math.floor(Math.random() * 41) + 50; // food (50-90)
+	let food = document.getElementById("amountFoodSettings");
+	food.placeholder = food_remain;
+
+	var random_color = Math.floor(Math.random()*16777215).toString(16);
+	color5points = "#" + random_color;
+
+	var random_color = Math.floor(Math.random()*16777215).toString(16);
+	color15points = "#" + random_color;
+
+	var random_color = Math.floor(Math.random()*16777215).toString(16);
+	color25points = "#" + random_color;
+
+	time_settings = Math.floor(Math.random() * 241) + 60; // time (60-300 sec) -> (1-5 minutes)
+	let time = document.getElementById("time_settings");
+	time.placeholder = time_settings;
+
+	monsters_settings = Math.floor(Math.random() * 4) + 1; //monsters (1-4)
+	let monsters = document.getElementById("monsters_amount_settings");
+	monsters.placeholder = monsters_settings;
+
+
+}
+
 //game logic
 function Start() {
 	board = new Array();
@@ -60,7 +113,7 @@ function Start() {
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 144;
-	var food_remain = 80;
+	//var food_remain = 80;
 	var pacman_remain = 1;
 	start_time = new Date();
 	for (var i = 0; i < 12; i++) {
@@ -170,7 +223,7 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 250);
+	interval = setInterval(UpdatePosition, 100);
 
 }
 
@@ -203,7 +256,7 @@ function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblUser.value=userTitle;
-	lblTime.value = time_elapsed;
+	lblTime.value = time_settings - time_elapsed;
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -570,6 +623,44 @@ function welcome(){
 	var welcome = document.getElementById("welcome");
 	welcome.style.display = "block";
 	window.location.href='#welcome';
+}
+
+function ChangeSettings(){
+	unShowAll();
+	var setting = document.getElementById("ChangeSettings");
+	setting.style.display = "block";
+	window.location.href='#ChangeSettings';
+	let text_up = document.getElementById("up");
+	let text_down = document.getElementById("down");
+	let text_right = document.getElementById("right");
+	let text_left = document.getElementById("left");
+
+
+	let time = document.getElementById("time_settings");
+	key_up = 38;
+	key_down = 40;
+	key_right = 39;
+	key_left = 37;
+	text_up.addEventListener('keyup', (e) => {
+		text_up.placeholder= e.key;
+		key_up = e.keyCode;		
+	  });
+	
+	text_down.addEventListener('keyup', (e) => {
+		text_down.placeholder= e.key;
+		key_down = e.keyCode;		
+	  });
+
+	text_right.addEventListener('keyup', (e) => {
+		text_right.placeholder= e.key;
+		key_right = e.keyCode;		
+	  });
+
+	text_left.addEventListener('keyup', (e) => {
+		text_left.placeholder= e.key;
+		key_left = e.keyCode;		
+	  });
+
 }
 
 function showRegister(){
