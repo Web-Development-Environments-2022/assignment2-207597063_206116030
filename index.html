@@ -42,27 +42,27 @@
 
 			<p>
 				<strong>User name: </strong>
-				<input type="text" id="username" name="username">
+				<input class="user_inputs" type="text" id="username" name="username">
 			</p>
 			<p>
 				<strong>password: </strong>
-				<input type="password" id="password" name="password">
+				<input class="user_inputs" type="password" id="password" name="password">
 			</p>
 			<p>
 				<strong>Full name: </strong>
-				<input type="text" id="fullname" name="fullname">
+				<input class="user_inputs" type="text" id="fullname" name="fullname">
 			</p>
 			<p>
 				<strong>Email: </strong>
-				<input type="text" id="mail" name="mail">
+				<input class="user_inputs" type="text" id="mail" name="mail">
 			</p>
 			<p>
 				<strong>Date of Birth: </strong>
-				<input type="date" id="date" name="date">
+				<input class="user_inputs" type="date" id="date" name="date">
 			</p>
 
 			<p>
-				<button type="submit" id="registerbtn" onclick="registerComplete()">Register</button>
+				<button  type="submit" id="registerbtn" onclick="registerComplete()">Register</button>
 			</p>
 		</div>
 		
@@ -84,12 +84,12 @@
 			<hr>
 			<label for="user"><b>User name</b></label>
 			<br/>
-    		<input type="text" placeholder="Enter User name" name="user" id="userLogin" required>
+    		<input class="user_inputs" type="text" placeholder="Enter User name" name="user" id="userLogin" required>
 			<br/>
 
 			<label for="psw"><b>Password</b></label>
 			<br/>
-			<input type="password" placeholder="Enter Password" name="psw" id="pswLogin" required>
+			<input class="user_inputs" type="password" placeholder="Enter Password" name="psw" id="pswLogin" required>
 			<br/>
 
 
@@ -112,22 +112,21 @@
 			</div>
 		  </div>
 
+			<div id="score" hidden >
+				<label class="user-label" id="scorelabel" for="lblScore">SCORE:</label>
+				<input class="lbl" id="lblScore" type="text" />
+			</div>
 
-		<div id="score" hidden >
-			<label class="user-label" for="lblScore">SCORE:</label>
-			<input class="lbl" id="lblScore" type="text" />
-		</div>
 
+			<div id="time" hidden >
+				<label class="user-label" id="timelabel" for="lblTime">TIME:</label>
+				<input class="lbl" id="lblTime" type="text" />
+			</div>
 
-		<div id="time" hidden >
-			<label class="user-label" for="lblTime">TIME:</label>
-			<input class="lbl" id="lblTime" type="text" />
-		</div>
-
-		<div id="userName" hidden >
-			<label class="user-label" for="lblUser">PLAYER:</label>
-			<input class="lbl" id="lblUser" type="text" />
-		</div>
+			<div id="userName" hidden >
+				<label class="user-label" for="lblUser">PLAYER:</label>
+				<input class="lbl" id="lblUser" type="text" />
+			</div>
 
 		<div id="life" hidden >
 			<img id="life1" src="images/life.png">
@@ -144,7 +143,10 @@
 
 		<div id="footer">
 			<h2 class="footer-head">The website was created by Yuval&Amit</h2>
-			<a class="btn" href="mailto:yuvalf301@gmail.com">CONTACT US</a>
+			<a id="btn-footer" class="btn" href="mailto:yuvalf301@gmail.com">CONTACT US</a>
+			<br>
+			<br>
+
 		</div>
 		
 		
