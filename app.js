@@ -25,16 +25,16 @@ var hasMed=false;
 var keysDown;
 
 //settings
-var key_up = 38;
-var key_down = 40;
-var key_right = 39;
-var key_left = 37;
-var food_remain = 50;
-var color5points = "#000000";
-var color15points = "#000000";
-var color25points = "#000000";
-var time_settings = 60;
-var monsters_settings = 4;
+var g_key_up = 38;
+var g_key_down = 40;
+var g_key_right = 39;
+var g_key_left = 37;
+var g_food_remain = 50;
+var g_color5points;
+var g_color15points;
+var g_color25points;
+var g_time_settings = 60;
+var g_monsters_settings = 4;
 
 //load images
 const monster1=new Image();
@@ -63,17 +63,50 @@ localStorage.setItem("k",JSON.stringify({
 $(document).ready(function() {
 	alert("did the ready part");
 	welcome();
+	
 });
 
 
 //settings
 function saveSettings(){
-	food_remain = document.getElementById("amountFoodSettings").value;
+	g_food_remain = document.getElementById("amountFoodSettings").value;
 	color5points = document.getElementById("color5_points").value;
 	color15points = document.getElementById("color15_points").value;
 	color25points = document.getElementById("color25_points").value;
-	time_settings = document.getElementById("time_settings").value;
-	monsters_settings = document.getElementById("monsters_amount_settings").value;
+	g_time_settings = document.getElementById("value_time").value;
+	g_monsters_settings = document.getElementById("monsters_amount_settings").value;
+}
+
+function confirmation(){
+	var c_up = document.getElementById("up");
+	var c_down = document.getElementById("down");
+	var c_right = document.getElementById("right");
+	var c_left = document.getElementById("left");
+	var c_food = document.getElementById("amountFoodSettings");
+	var c_time = document.getElementById("time_settings");
+	var c_monster = document.getElementById("monsters_amount_settings");
+
+	if (c_up.value === "" || c_down.value === "" || c_right.value === "" || c_left.value === "" ||c_food.value === "" || c_time.value === "" || c_monster.value === ""){
+		alert("you missed details!")
+		return;
+	}
+
+	document.getElementById("up_conf").textContent = document.getElementById("up").value;
+	document.getElementById("down_conf").textContent = document.getElementById("down").value;
+	document.getElementById("right_conf").textContent = document.getElementById("right").value;
+	document.getElementById("left_conf").textContent = document.getElementById("left").value;
+	document.getElementById("time_conf").textContent = document.getElementById("time_settings").value;
+	document.getElementById("monsters_conf").textContent = document.getElementById("monsters_amount_settings").value;
+	document.getElementById("food_conf").textContent = document.getElementById("amountFoodSettings").value;
+	document.getElementById("points5_conf").style.color = document.getElementById("color5_points").value;
+	document.getElementById("points15_conf").style.color = document.getElementById("color15_points").value;
+	document.getElementById("points25_conf").style.color = document.getElementById("color25_points").value;
+
+	unShowAll();
+
+	var con = document.getElementById("Confirmation_settings");
+	con.style.display = "block";
+	//window.location.href='#Confirmation_settings';
 }
 
 function random_settings(){
@@ -81,60 +114,53 @@ function random_settings(){
 	// key_down = 40;
 	// key_right = 39;
 	// key_left = 37;
+	unShowAll();
+	$("#Confirmation_settings").show();
 
-	document.getElementById("up").placeholder = "ArrowUp";
-	document.getElementById("up").value = "ArrowUp";
+	document.getElementById("up_conf").textContent = "ArrowUp";
+	//document.getElementById("up").value = "ArrowUp";
+	//document.getElementById("value_up").textContent = "ArrowUp";
 
-	document.getElementById("down").placeholder = "ArrowDown";
-	document.getElementById("down").value = "ArrowDown";
+	document.getElementById("down_conf").textContent= "ArrowDown";
+	//document.getElementById("down").value = "ArrowDown";
+	//document.getElementById("value_down").textContent = "ArrowDown";
 
-	document.getElementById("right").placeholder = "ArrowRight";
-	document.getElementById("right").value = "ArrowRight";
+	document.getElementById("right_conf").textContent = "ArrowRight";
+	//document.getElementById("right").value = "ArrowRight";
+	//document.getElementById("value_right").textContent = "ArrowRight";
 
-	document.getElementById("left").placeholder = "ArrowLeft";
-	document.getElementById("left").value = "ArrowLeft";
+	document.getElementById("left_conf").textContent = "ArrowLeft";
+	//document.getElementById("left").value = "ArrowLeft";
+	//document.getElementById("value_left").textContent = "ArrowLeft";
 
 		
 	const random_food = Math.floor(Math.random() * 41) + 50; // food (50-90)
-	var food = document.getElementById("amountFoodSettings");
-	//document.getElementById("amountFoodSettings").placeholder = random_food;
-	document.getElementById("amountFoodSettings").value = random_food;
-	food_remain = random_food;
-	
+	document.getElementById("food_conf").textContent = random_food;
 
 
-	// let random_color1 = Math.floor(Math.random()*16777215).toString(16);
-	// let c5points = document.getElementById("color5_points");
-	// c5points.style.color = "#" + random_color1;
-	// c5points.value = "#" + random_color1;
-	// color5points = "#" + random_color1;
+	const random_color1 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+	document.getElementById("points5_conf").style.color = random_color1;
 
 
-	// let random_color2 = Math.floor(Math.random()*16777215).toString(16);
-	// let c15points = document.getElementById("color15_points");
-	// //c15points.style.backgroundColor = "#" + random_color2;
+
+	const random_color2 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+	document.getElementById("points15_conf").style.color = random_color2;
 	// c15points.value = "#" + random_color2;
-	// color15points = "#" + random_color2;
+	//g_color15points = random_color2;
 
 
-	// let random_color3 = Math.floor(Math.random()*16777215).toString(16);
-	// let c25points = document.getElementById("color25_points");
-	// //c25points.style.color = "#" + random_color3;
-	// c25points.value = "#" + random_color3;
-	// color25points = "#" + random_color3;
+	const random_color3 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+	document.getElementById("points25_conf").style.color = random_color3;
 
 
+	const random_time = Math.floor(Math.random() * 241) + 60; // time (60-300 sec) -> (1-5 minutes)
+	document.getElementById("time_conf").textContent = random_time;
 	
-	// let random_monsters = Math.floor(Math.random() * 4) + 1; //monsters (1-4)	
-	// let monsters = document.getElementById("monsters_amount_settings");
-	// monsters.placeholder = random_monsters;
-	// //monsters_settings = random_monsters;
+
+	const random_monsters = Math.floor(Math.random() * 4) + 1; //monsters (1-4)	
+	document.getElementById("monsters_conf").textContent = random_monsters;
 
 
-	// let random_time = Math.floor(Math.random() * 241) + 60; // time (60-300 sec) -> (1-5 minutes)
-	// let time = document.getElementById("time_settings");
-	// time.placeholder = random_time;
-	// //time_settings = random_time;
 }
 
 //game logic
@@ -220,10 +246,10 @@ function Start() {
 			}
 			else {
 				var randomNum = Math.random();
-				if (randomNum <= (1.0 * food_remain) / cnt) {
-					food_remain--;
+				if (randomNum <= (1.0 * g_food_remain) / cnt) {
+					g_food_remain--;
 					board[i][j] = 1;
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+				} else if (randomNum < (1.0 * (pacman_remain + g_food_remain)) / cnt) {
 					shape.i = i;
 					shape.j = j;
 					pacman_remain--;
@@ -235,10 +261,10 @@ function Start() {
 			}
 		}
 	}
-	while (food_remain > 0) {
+	while (g_food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
-		food_remain--;
+		g_food_remain--;
 	}
 	keysDown = {};
 	addEventListener(
@@ -288,7 +314,7 @@ function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblUser.value=userTitle;
-	lblTime.value = time_settings - time_elapsed;
+	lblTime.value = g_time_settings - time_elapsed;
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -628,15 +654,19 @@ function unShowAll(){
 	lifes.style.display = "none";
 	var time = document.getElementById("time");
 	time.style.display = "none";
+	var set = document.getElementById("ChangeSettings");
+	set.style.display = "none";
+	var confirm = document.getElementById("Confirmation_settings");
+	confirm.style.display = "none";
 
 }
 
-function Game(){
+function f_Game(){
 	unShowAll();
 	var canvas = document.getElementById("canvas");
 	context = canvas.getContext("2d");
-	var game = document.getElementById("game");
-	game.style.display = "block";
+	var v_game = document.getElementById("game");
+	v_game.style.display = "block";
 	var score = document.getElementById("score");
 	score.style.display = "block";
 	var time = document.getElementById("time");
@@ -657,40 +687,93 @@ function welcome(){
 	window.location.href='#welcome';
 }
 
-function ChangeSettings(){
+function pre_changeSettings(){
 	unShowAll();
 	var setting = document.getElementById("ChangeSettings");
 	setting.style.display = "block";
 	window.location.href='#ChangeSettings';
-	let text_up = document.getElementById("up");
-	let text_down = document.getElementById("down");
-	let text_right = document.getElementById("right");
-	let text_left = document.getElementById("left");
+	f_ChangeSettings();
+}
+
+
+function f_ChangeSettings(){
+	var text_up = document.getElementById("up");
+	var text_down = document.getElementById("down");
+	var text_right = document.getElementById("right");
+	var text_left = document.getElementById("left");
+	var number_time = document.getElementById("time_settings");
+	var number_monsters = document.getElementById("monsters_amount_settings");
+	var number_food = document.getElementById("amountFoodSettings");
+	//var c_5 = document.getElementById("color5_points");
+	//var c_15 = document.getElementById("color15_points");
+	//var c_25 = document.getElementById("color25_points");
+
+
 
 	text_up.addEventListener('keyup', (e) => {
 		text_up.placeholder= e.key;
-		key_up = e.keyCode;	
+		g_key_up = e.keyCode;	
 		text_up.value = e.key;	
+		document.getElementById("value_up").textContent = e.key;
+		document.getElementById("up_conf").textContent = e.key;
 	  });
 	
 	text_down.addEventListener('keyup', (e) => {
 		text_down.placeholder= e.key;
-		key_down = e.keyCode;	
+		g_key_down = e.keyCode;	
 		text_down.value = e.key;	
+		document.getElementById("value_down").textContent = e.key;
+		document.getElementById("down_conf").textContent = e.key;
+
+
 	  });
 
 	text_right.addEventListener('keyup', (e) => {
 		text_right.placeholder= e.key;
-		key_right = e.keyCode;
-		text_right.value = e.key;		
+		g_key_right = e.keyCode;
+		text_right.value = e.key;	
+		document.getElementById("value_right").textContent = e.key;
+		document.getElementById("right_conf").textContent = e.key;
+
 	  });
 
 	text_left.addEventListener('keyup', (e) => {
 		text_left.placeholder= e.key;
-		key_left = e.keyCode;	
-		text_left.value = e.key;	
+		g_key_left = e.keyCode;	
+		text_left.value = e.key;
+		document.getElementById("value_left").textContent = e.key;
+		document.getElementById("left_conf").textContent = e.key;
+
 	  });
 
+	number_time.addEventListener('input', (e) => {
+		document.getElementById("value_time").textContent = number_time.value;
+		document.getElementById("time_conf").textContent = number_time.value;
+
+	  });
+
+	number_monsters.addEventListener('input', (e) => {
+		document.getElementById("value_monster").textContent = number_monsters.value;
+		document.getElementById("monsters_conf").textContent = number_monsters.value;
+
+	  });
+
+	number_food.addEventListener('input', (e) => {
+		document.getElementById("value_food").textContent = number_food.value;
+		document.getElementById("food_conf").textContent = number_food.value;
+	  });	
+
+	// c_5.addEventListener('change', (e) => {
+	// 	document.getElementById("points5_conf").style.color = c_5.value;
+	//   });	
+
+	// c_15.addEventListener('change', (e) => {
+	// 	document.getElementById("points15_conf").style.color = c_15.value;
+	//   });	
+	
+	// c_25.addEventListener('change', (e) => {
+	// 	document.getElementById("points25_conf").style.color = c_25.value;
+	//   });	  
 }
 
 function showRegister(){
@@ -724,8 +807,6 @@ function closeModel(){
 	modal.style.display = "none";
 	modelOn=false;
 }
-
-
 
 function registerComplete(){ 
 	var rgularExp = {
@@ -776,7 +857,7 @@ function registerComplete(){
 		localStorage.setItem(username,JSON.stringify({username: username, password: pass,
 			fullname: fullname, mail: mail, date: date}));
 		alert("added success");
-		Game();
+		f_Game();
 		
 	}
 	return;
@@ -813,7 +894,7 @@ function login(){
 			console.log("true");
 			alert("you entered everything ok");
 			userTitle = user;
-			Game();
+			f_Game();
 			return;
 
 		} else {

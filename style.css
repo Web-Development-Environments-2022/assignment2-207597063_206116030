@@ -234,6 +234,8 @@ h1{
 
 }
 
-.color_input{
-  margin: .4rem;
+
+.value_choose{
+  font-size: medium;
+  color: #fefefe;
 }

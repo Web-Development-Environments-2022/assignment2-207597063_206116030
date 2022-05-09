@@ -25,7 +25,7 @@
 				<li><a href="#Register" onclick="showRegister()"><b>Register</b></a></li>
 				<li><a href="#Login" onclick="showLogin()"><b>Login</b></a></li>
 				<li><a href="#about" onclick="showAbout()"><b>About</b></a></li>
-				<li><a href="#ChangeSettings" onclick="ChangeSettings()"><b>settings</b></a></li>
+				<li><a href="#ChangeSettings" onclick="pre_changeSettings()"><b>settings</b></a></li>
 			</ul>
 		</div>
 
@@ -48,7 +48,7 @@
 			</p>
 			<p>
 				<strong>password: </strong>
-				<input class="user_inputs" type="password" id="password" name="password">
+				<input class="user_inputs" type="password" id="password" name="password" autocomplete="off">
 			</p>
 			<p>
 				<strong>Full name: </strong>
@@ -76,6 +76,46 @@
 		</div>
 		</form>
 
+		<div id="Confirmation_settings" style="color: white; text-align: center;">
+			<lable>up: </lable>
+			<lable id="up_conf"></lable>
+			<br/>
+			<lable>down: </lable>
+			<lable id="down_conf"></lable>
+			<br/>
+			<lable>right: </lable>
+			<lable id="right_conf"></lable>
+			<br/>
+			<lable>left: </lable>
+			<lable id="left_conf"></lable>
+			<br/>
+			<lable>food: </lable>
+			<lable id="food_conf"></lable>
+			<br/>
+			<lable>5 points: </lable>
+			<lable id="points5_conf"> color</lable>
+			<br/>
+			<lable>15 points: </lable>
+			<lable id="points15_conf"> color</lable>
+			<br/>
+			<lable>25 points: </lable>
+			<lable id="points25_conf"> color</lable>
+			<br/>
+			<lable>time: </lable>
+			<lable id="time_conf"></lable>
+			<br/>
+			<lable>monsters: </lable>
+			<lable id="monsters_conf"></lable>
+			<br/>
+
+			<p>
+				<button type="submit" onclick="pre_changeSettings()">back</button>
+				<button type="submit" onclick="random_settings()">random again</button>
+				<button type="submit" onclick="saveSettings()">start</button>		
+			</p>
+
+
+		</div>
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
 			<div id="ChangeSettings" class="container" hidden >
@@ -83,56 +123,64 @@
 	
 				<p>
 					<strong>up </strong>
-					<input class="user_inputs" type="text" id="up" placeholder="ArrowUp" name="up" maxlength="1" autocomplete="off">
+					<input class="user_inputs" type="text" id="up" placeholder="ArrowUp" name="up" maxlength="1" autocomplete="off" required>
+					<label class="value_choose" id="value_up"></label>
 				</p>
 				<p>
 					<strong>down </strong>
-					<input class="user_inputs" type="text" id="down" placeholder="ArrowDown" name="down" maxlength="1" autocomplete="off">
+					<input class="user_inputs" type="text" id="down" placeholder="ArrowDown" name="down" maxlength="1" autocomplete="off" required>
+					<label class="value_choose" id="value_down"></label>
 				</p>
 				<p>
 					<strong>right </strong>
-					<input class="user_inputs" type="text" id="right" placeholder="ArrowRight" name="right" maxlength="1" autocomplete="off">
+					<input class="user_inputs" type="text" id="right" placeholder="ArrowRight" name="right" maxlength="1" autocomplete="off" required>
+					<label class="value_choose" id="value_right"></label>
 				</p>
 				<p>
 					<strong>left </strong>
-					<input class="user_inputs" type="text" id="left" placeholder="ArrowLeft" name="left" maxlength="1" autocomplete="off">
+					<input class="user_inputs" type="text" id="left" placeholder="ArrowLeft" name="left" maxlength="1" autocomplete="off" required>
+					<label class="value_choose" id="value_left"></label>
 				</p>
 
 				<p>
 					<strong>Amount of food</strong>
-					<input class="user_inputs" type="number" id="amountFoodSettings" placeholder="(50-90)" name="amountFoodSettings" maxlength="2" autocomplete="off" min="50" max="90">
+					<input class="user_inputs" type="number" id="amountFoodSettings" placeholder="(50-90)" name="amountFoodSettings" maxlength="2" autocomplete="off" min="50" max="90" required>
+					<label class="value_choose" id="value_food"></label>
 
 				</p>
 
 					<p>Colors:</p>
 					<p>
 						<strong>5 points</strong>
-						<input class="color_input" type="color" id="color5_points" name="color5_points" autocomplete="off" >
+						<input type="color" id="color5_points" name="color5_points" autocomplete="off" >
 					</p>
 
 					<p>
 						<strong>15 points</strong>
-						<input class="color_input" type="color" id="color15_points" name="color15_points" autocomplete="off">
+						<input type="color" id="color15_points" name="color15_points" autocomplete="off">
 					</p>
 
 					<p>
 						<strong>25 points</strong>
-						<input class="color_input" type="color" id="color25_points" name="color25_points" autocomplete="off">
+						<input type="color" id="color25_points" name="color25_points" autocomplete="off">
 					</p>
 				
 				<p>
 					<strong>time (sec)</strong>
-					<input class="user_inputs" type="number" id="time_settings" placeholder="min 60 sec" name="time_settings" autocomplete="off" min="60">
+					<input class="user_inputs" type="number" id="time_settings" placeholder="min 60 sec" name="time_settings" autocomplete="off" min="60" required>
+					<label class="value_choose" id="value_time"></label>
 				</p>
 
 				<p>
 					<strong>Monsters amount</strong>
-					<input class="user_inputs" type="number" id="monsters_amount_settings" placeholder="1-4 monsters" name="monsters_amount_settings" autocomplete="off" min="1" max="4">
+					<input class="user_inputs" type="number" id="monsters_amount_settings" placeholder="1-4 monsters" name="monsters_amount_settings" autocomplete="off" min="1" max="4" required>
+					<label class="value_choose" id="value_monster"></label>
 				</p>
 
 				<p>
-					<button type="submit" onclick="saveSettings()">submit</button>
-					<button type="submit" onclick="random_settings()">random settings</button>
+					<button type="button" onclick="random_settings()">random settings</button>
+					<button type="submit" onclick="confirmation()">continue</button>
+
 				</p>
 			</div>
 			
@@ -152,7 +200,7 @@
 
 			<label for="psw"><b>Password</b></label>
 			<br/>
-			<input class="user_inputs" type="password" placeholder="Enter Password" name="psw" id="pswLogin" required>
+			<input class="user_inputs" type="password" placeholder="Enter Password" name="psw" id="pswLogin" autocomplete="off" required>
 			<br/>
 
 
@@ -211,6 +259,13 @@
 			<br>
 
 		</div>
+
+
+
+
+
+
+		
 		<script type="text/javascript" src="app.js"></script>
 
 	</body>
