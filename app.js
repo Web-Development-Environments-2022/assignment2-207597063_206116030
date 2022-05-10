@@ -11,6 +11,7 @@ var angShape=new Object();
 var board;
 var score;
 var audio = new Audio('images/song.mp3');
+var hitA  =new Audio('images/pacHit.mp3');
 audio.loop = true;
 var pac_color;
 var start_time;
@@ -63,7 +64,6 @@ localStorage.setItem("k",JSON.stringify({
 
 //load page
 $(document).ready(function() {
-	alert("did the ready part");
 	welcome();
 	
 });
@@ -234,6 +234,8 @@ function PutFood(randomType){
 //game logic
 function Start() {
 	board = new Array();
+	numOfLifes=5;
+	resetLifes();
 	shape.i = 5;
 	shape.j = 0;
 	score = 0;
@@ -529,14 +531,17 @@ function UpdatePosition() {
 	if(board[shape.i][shape.j] == 5){ //monster
 		score-=10;
 		numOfLifes-=1;
-		removeLife();
+		removeLife();	
+		hitA.play();
 		drawAfterHit();
 	}
 	if(board[shape.i][shape.j] == 9){ //monster
 		score-=25;
 		numOfLifes-=1;
 		removeLife();
+		hitA.play();
 		drawAfterHit();
+
 	}
 	if(board[shape.i][shape.j] == 6){ //angel
 		score+=50;
@@ -551,14 +556,15 @@ function UpdatePosition() {
 	time_elapsed = (currentTime - start_time) / 1000;
 
 	if(board[shape.i][shape.j] == 8){ //clock
-		time_elapsed-=20;
+		g_time_settings+=(20/1000);
+		console.log("touched clock");
 		hasClock=false;
 	}
 	board[shape.i][shape.j] = 2;
-	if(score>=0 && time_elapsed< 50){
+	if(score>=0 ){
 		pac_color="yellow"
 	}
-	if (score < 0 || time_elapsed >= 50) {
+	if (score < 0) {
 		pac_color = "red";
 	}
 	if(numOfLifes<=2){
@@ -566,16 +572,22 @@ function UpdatePosition() {
 			drawMed();
 		}
 	}
-	if(time_elapsed>=50){
+	if(g_time_settings-time_elapsed<200){
 		if(!hasClock){
 			drawClock();
 		}
 	}
-	if (score == 70) {
+	if (g_time_settings-time_elapsed<0) {
 		window.clearInterval(interval);
-		window.alert("Game completed");
+		if(score>=100){
+			window.alert("Winner!!!");
+		}
+		else{
+			window.alert("You are better then "+score+"points!");
+
+		}
 	}
-	else if(numOfLifes==0 || time_elapsed==60){
+	else if(numOfLifes==0){
 		window.clearInterval(interval);
 		window.alert("Loser");
 		f_ChangeSettings();
@@ -619,32 +631,34 @@ else{
 
 function drawClock(){
 	//clock in random position
+	console.log("draw clock");
 	hasClock=true;
-	var x=Math.floor(Math.random() * 6 + 1);
-	if(x==1){
-		board[4][5]=8;
+	board[0][1]=8;
+	// var x=Math.floor(Math.random() * 6 + 1);
+	// if(x==1){
+	// 	board[4][5]=8;
 
-	}
-	else if(x==2){
-		board[10][7]=8;
+	// }
+	// else if(x==2){
+	// 	board[10][7]=8;
 
-	}
-	else if(x==3){
-		board[0][9]=8;
+	// }
+	// else if(x==3){
+	// 	board[0][9]=8;
 
-	}
-	else if(x==4){
-		board[2][3]=8;
+	// }
+	// else if(x==4){
+	// 	board[2][3]=8;
 
-	}
-	else if(x==5){
-		board[2][9]=8;
+	// }
+	// else if(x==5){
+	// 	board[2][9]=8;
 
-	}
-	else{
-		board[8][7]=8;
+	// }
+	// else{
+	// 	board[8][7]=8;
 
-	}
+	// }
 
 }
 
@@ -697,6 +711,14 @@ function drawAfterHit(){
 
 }
 
+function resetLifes(){
+	$("#life5").show();
+	$("#life4").show();
+	$("#life3").show();
+	$("#life2").show();
+	$("#life1").show();
+
+}
 function addLife(){
 	if(numOfLifes==5){
 		$("#life5").show();
@@ -736,31 +758,22 @@ function removeLife(){
 
 //Presentation  logic
 function unShowAll(){
-	audio.pause();
-	var welcome = document.getElementById("welcome");
-	welcome.style.display = "none";
-	var login = document.getElementById("Login");
-	login.style.display = "none";
-	var Unregistered = document.getElementById("Unregistered");
-	Unregistered.style.display = "none";
-	var register = document.getElementById("Register");
-	register.style.display = "none";
-	var alredySignin = document.getElementById("alredySignin");
-	alredySignin.style.display = "none";
-	var game = document.getElementById("game");
-	game.style.display = "none";
-	var score = document.getElementById("score");
-	score.style.display = "none";
-	var userName = document.getElementById("userName");
-	userName.style.display = "none";
-	var lifes = document.getElementById("life");
-	lifes.style.display = "none";
-	var time = document.getElementById("time");
-	time.style.display = "none";
-	var set = document.getElementById("ChangeSettings");
-	set.style.display = "none";
-	var confi = document.getElementById("Confirmation_settings");
-	confi.style.display = "none";
+	if(!audio.paused){
+		audio.pause();
+		audio.currentTime =0;
+	}
+	$("#welcome").hide();
+	$("#Login").hide();
+	$("#Unregistered").hide();
+	$("#Register").hide();
+	$("#alredySignin").hide();
+	$("#game").hide();
+	$("#score").hide();
+	$("#userName").hide();
+	$("#life").hide();
+	$("#time").hide();
+	$("#ChangeSettings").hide();
+	$("#Confirmation_settings").hide();
 
 }
 
@@ -768,16 +781,11 @@ function f_Game(){
 	unShowAll();
 	var canvas = document.getElementById("canvas");
 	context = canvas.getContext("2d");
-	var v_game = document.getElementById("game");
-	v_game.style.display = "block";
-	var score = document.getElementById("score");
-	score.style.display = "block";
-	var time = document.getElementById("time");
-	time.style.display = "block";
-	var userName = document.getElementById("userName");
-	userName.style.display = "block";
-	var lifes = document.getElementById("life");
-	lifes.style.display = "block";
+	$("#game").show();
+	$("#score").show();
+	$("#userName").show();
+	$("#life").show();
+	$("#time").show();
 	audio.play();
 	window.location.href='#game';
 	Start();
@@ -785,8 +793,7 @@ function f_Game(){
 
 function welcome(){
 	unShowAll();
-	var welcome = document.getElementById("welcome");
-	welcome.style.display = "block";
+	$("#welcome").show();
 	window.location.href='#welcome';
 }
 
@@ -868,10 +875,8 @@ function f_ChangeSettings(){
 
 function showRegister(){
 	unShowAll();
-	var register = document.getElementById("Register");
-	register.style.display = "block";
-	var alredySignin = document.getElementById("alredySignin");
-	alredySignin.style.display = "block";
+	$("#Register").show();
+	$("#alredySignin").show();
 	window.location.href='#Register';
 }
 
@@ -883,18 +888,32 @@ function showLogin(){
 }
 
 
+/////// model ///////
 // opens the model
 function showAbout(){
-	var modal = document.getElementById("about");
-	modal.style.display = "block";
+	$("#about").show()
 	modelOn=true;
 }
-// closes the model
+// closes the model by x
 function closeModel(){
-	var modal = document.getElementById("about");
-	modal.style.display = "none";
+	$("#about").hide()
 	modelOn=false;
 }
+// closes the model by pressing outside the window
+window.onclick = function (event) {
+  if (event.target == about) {
+		$("#about").hide();
+  }
+};
+// closes the model by pressing key - escape
+window.addEventListener("keyup", function (e) {
+  if (e.keyCode === 27) {
+	$("#about").hide();
+
+
+  }
+});
+/////// end model//////
 
 function registerComplete(){ 
 	var rgularExp = {
