@@ -31,8 +31,11 @@ var g_key_right = 39;
 var g_key_left = 37;
 var g_food_remain = 50;
 var g_color5points;
+var g_amount_5;
 var g_color15points;
+var g_amount_15;
 var g_color25points;
+var g_amount_25;
 var g_time_settings = 60;
 var g_monsters_settings = 4;
 
@@ -161,6 +164,73 @@ function random_settings(){
 	$("#Confirmation_settings").show();
 }
 
+//60% 5 points, 30% 15 points, 10% 25 points
+function calc_food(){
+	g_amount_5 = parseInt(g_food_remain*60/100);
+	g_amount_15 = parseInt(g_food_remain*30/100);
+	g_amount_25 = g_food_remain - g_amount_15 - g_amount_5;
+}
+
+function PutFood(randomType){
+	if(randomType == 1){ // food 5points
+		if(g_amount_5 > 0){
+			g_amount_5--;
+			return 1.5; // food 5points
+		}
+		else{
+			if(g_amount_15 > 0){
+				g_amount_15--;
+				return 1.15;  // food 15points
+			}
+			else{
+				if(g_amount_25 > 0){
+					g_amount_25--;
+					return 1.25; // food 25points
+				}
+			}
+		}
+	}
+
+	else if(randomType == 2){ // food 15points
+		if(g_amount_15 > 0){
+			g_amount_15--;
+			return 1.15; // food 5points
+		}
+		else{
+			if(g_amount_25 > 0){
+				g_amount_25--;
+				return 1.25; // food 25points
+			}
+			else{
+				if(g_amount_5 > 0){
+					g_amount_5--;
+					return 1.5; // food 5points
+				}
+			}
+		}
+	}
+
+	else if(randomType == 3){ // food 25points
+		if(g_amount_25 > 0){
+			g_amount_25--;
+			return 1.25; // food 25points
+		}
+		else{
+			if(g_amount_5 > 0){
+				g_amount_5--;
+				return 1.5; // food 5points
+			}
+			else{
+				if(g_amount_15 > 0){
+					g_amount_15--;
+					return 1.15; // food 15points
+				}
+			}
+		}
+	}
+}
+
+
 //game logic
 function Start() {
 	board = new Array();
@@ -171,6 +241,8 @@ function Start() {
 	var cnt = 144;
 	//var food_remain = 80;
 	var pacman_remain = 1;
+	var randomType;
+	calc_food();
 	start_time = new Date();
 	for (var i = 0; i < 12; i++) {
 		console.log(i);
@@ -253,8 +325,10 @@ function Start() {
 			else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * g_food_remain) / cnt) {
+					randomType = Math.floor(Math.random() * (3 - 1 + 1) ) + 1;
+					board[i][j] = PutFood(randomType); //food
 					g_food_remain--;
-					board[i][j] = 1;
+
 				} else if (randomNum < (1.0 * (pacman_remain + g_food_remain)) / cnt) {
 					shape.i = i;
 					shape.j = j;
@@ -269,7 +343,8 @@ function Start() {
 	}
 	while (g_food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
-		board[emptyCell[0]][emptyCell[1]] = 1;
+		randomType = Math.floor(Math.random() * (3 - 1 + 1) ) + 1;
+		board[emptyCell[0]][emptyCell[1]] = PutFood(randomType);
 		g_food_remain--;
 	}
 	keysDown = {};
@@ -369,10 +444,18 @@ function Draw(x) {
 					context.fillStyle = "black"; //color
 					context.fill();
 				}
-			} else if (board[i][j] == 1) { //food
+			} else if (board[i][j] == 1.5 || board[i][j] == 1.15 || board[i][j] == 1.25) { //food
 				context.beginPath();
 				context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
-				context.fillStyle = "gold"; //color
+				if(board[i][j] == 1.5){
+					context.fillStyle = g_color5points; //color
+				}
+				else if(board[i][j] == 1.15){
+					context.fillStyle = g_color15points; //color
+				}
+				else{
+					context.fillStyle = g_color25points; //color
+				}
 				context.fill();
 			} else if (board[i][j] == 4) { //wall
 				context.beginPath();
@@ -434,8 +517,14 @@ function UpdatePosition() {
 	else{
 		x=lastPrased;
 	}
-	if (board[shape.i][shape.j] == 1) { //food
-		score++;
+	if (board[shape.i][shape.j] == 1.5) { //food 5 points
+		score = score +5;
+	}
+	if (board[shape.i][shape.j] == 1.15) { //food 15 points
+		score = score +15;
+	}
+	if (board[shape.i][shape.j] == 1.25) { //food 25 points
+		score = score +25;
 	}
 	if(board[shape.i][shape.j] == 5){ //monster
 		score-=10;
