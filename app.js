@@ -49,8 +49,7 @@ angel.src='images/angel.png';
 clock.src='images/clock.png';
 
 
-//create local storage
-localStorage.clear();
+
 //default user
 localStorage.setItem("k",JSON.stringify({
 	username: "k",
@@ -70,97 +69,96 @@ $(document).ready(function() {
 //settings
 function saveSettings(){
 	g_food_remain = document.getElementById("amountFoodSettings").value;
-	color5points = document.getElementById("color5_points").value;
-	color15points = document.getElementById("color15_points").value;
-	color25points = document.getElementById("color25_points").value;
-	g_time_settings = document.getElementById("value_time").value;
+	g_color5points = document.getElementById("color5_points").value;
+	g_color15points = document.getElementById("color15_points").value;
+	g_color25points = document.getElementById("color25_points").value;
+	g_time_settings = document.getElementById("time_settings").value;
 	g_monsters_settings = document.getElementById("monsters_amount_settings").value;
+	f_Game();
 }
 
 function confirmation(){
-	var c_up = document.getElementById("up");
-	var c_down = document.getElementById("down");
-	var c_right = document.getElementById("right");
-	var c_left = document.getElementById("left");
-	var c_food = document.getElementById("amountFoodSettings");
-	var c_time = document.getElementById("time_settings");
-	var c_monster = document.getElementById("monsters_amount_settings");
+	var c_up = document.getElementById("up").value;
+	var c_down = document.getElementById("down").value;
+	var c_right = document.getElementById("right").value;
+	var c_left = document.getElementById("left").value;
+	var c_food = document.getElementById("amountFoodSettings").value;
+	var c_time = document.getElementById("time_settings").value;
+	var c_monster = document.getElementById("monsters_amount_settings").value;
 
-	if (c_up.value === "" || c_down.value === "" || c_right.value === "" || c_left.value === "" ||c_food.value === "" || c_time.value === "" || c_monster.value === ""){
+	if (c_up === "" || c_down === "" || c_right === "" || c_left === "" ||c_food === "" || c_time === "" || c_monster === ""){
 		alert("you missed details!")
 		return;
 	}
 
-	document.getElementById("up_conf").textContent = document.getElementById("up").value;
-	document.getElementById("down_conf").textContent = document.getElementById("down").value;
-	document.getElementById("right_conf").textContent = document.getElementById("right").value;
-	document.getElementById("left_conf").textContent = document.getElementById("left").value;
-	document.getElementById("time_conf").textContent = document.getElementById("time_settings").value;
-	document.getElementById("monsters_conf").textContent = document.getElementById("monsters_amount_settings").value;
-	document.getElementById("food_conf").textContent = document.getElementById("amountFoodSettings").value;
-	document.getElementById("points5_conf").style.color = document.getElementById("color5_points").value;
-	document.getElementById("points15_conf").style.color = document.getElementById("color15_points").value;
-	document.getElementById("points25_conf").style.color = document.getElementById("color25_points").value;
+	if(c_food > 90 || c_food < 50){
+		alert("Amount of food 50-90")
+		return;
+	}
+	if(c_time < 60){
+		alert("time minimum 60 sec")
+		return;
+	}
+	if(c_monster < 1 || c_monster > 4){
+		alert("Monsters amount 1-4")
+		return;
+	}
 
-	unShowAll();
-
-	var con = document.getElementById("Confirmation_settings");
-	con.style.display = "block";
-	//window.location.href='#Confirmation_settings';
-}
-
-function random_settings(){
-	// key_up = 38;
-	// key_down = 40;
-	// key_right = 39;
-	// key_left = 37;
 	unShowAll();
 	$("#Confirmation_settings").show();
 
+}
+
+function random_settings(){
+	
 	document.getElementById("up_conf").textContent = "ArrowUp";
-	//document.getElementById("up").value = "ArrowUp";
-	//document.getElementById("value_up").textContent = "ArrowUp";
+	document.getElementById("up").value = "ArrowUp";
+	g_key_up = 38;
 
 	document.getElementById("down_conf").textContent= "ArrowDown";
-	//document.getElementById("down").value = "ArrowDown";
-	//document.getElementById("value_down").textContent = "ArrowDown";
+	document.getElementById("down").value = "ArrowDown";
+	g_key_down = 40;
 
 	document.getElementById("right_conf").textContent = "ArrowRight";
-	//document.getElementById("right").value = "ArrowRight";
-	//document.getElementById("value_right").textContent = "ArrowRight";
+	document.getElementById("right").value = "ArrowRight";
+	g_key_right = 39;
 
 	document.getElementById("left_conf").textContent = "ArrowLeft";
-	//document.getElementById("left").value = "ArrowLeft";
-	//document.getElementById("value_left").textContent = "ArrowLeft";
-
+	document.getElementById("left").value = "ArrowLeft";
+	g_key_left = 37;
 		
 	const random_food = Math.floor(Math.random() * 41) + 50; // food (50-90)
 	document.getElementById("food_conf").textContent = random_food;
+	document.getElementById("amountFoodSettings").value = random_food;
 
 
 	const random_color1 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
 	document.getElementById("points5_conf").style.color = random_color1;
-
+	document.getElementById("color5_points").value = random_color1;
 
 
 	const random_color2 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
 	document.getElementById("points15_conf").style.color = random_color2;
-	// c15points.value = "#" + random_color2;
-	//g_color15points = random_color2;
+	document.getElementById("color15_points").value = random_color2;
 
 
 	const random_color3 = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
 	document.getElementById("points25_conf").style.color = random_color3;
+	document.getElementById("color25_points").value = random_color3;
 
 
 	const random_time = Math.floor(Math.random() * 241) + 60; // time (60-300 sec) -> (1-5 minutes)
 	document.getElementById("time_conf").textContent = random_time;
+	document.getElementById("time_settings").value = random_time;
 	
 
 	const random_monsters = Math.floor(Math.random() * 4) + 1; //monsters (1-4)	
 	document.getElementById("monsters_conf").textContent = random_monsters;
+	document.getElementById("monsters_amount_settings").value = random_monsters;
 
 
+	unShowAll();
+	$("#Confirmation_settings").show();
 }
 
 //game logic
@@ -231,15 +229,23 @@ function Start() {
 			) {
 				board[i][j] = 4;
 			}
-			else if((i == 0 && j == 0) ||
-			(i == 11 && j == 11))
-			{
-				board[i][j] = 5;
+
+			else if(i == 0 && j == 0){ //monster 1
+				board[i][j] = 5;  //monster -life -10 score
 			}
-			else if((i == 11 && j == 0) ||
-			(i == 0 && j == 11)) {
-				board[i][j]=9;
+
+			else if((i == 11 && j == 11) && (g_monsters_settings >= 2)){ //monster 2
+				board[i][j]=9;  //monster -life -25 score
 			}
+
+			else if((i == 11 && j == 0) && (g_monsters_settings >=3)){ //monster 3
+				board[i][j] = 5;  //monster -life -10 score
+			}
+
+			else if((i == 0 && j == 11) && (g_monsters_settings == 4)){ //monster 4
+				board[i][j] = 5; //monster -life -10 score
+			}
+
 			else if((i==6 && j==6)){
 				board[i][j] = 6;
 
@@ -296,16 +302,16 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) { //up
+	if (keysDown[g_key_up]) { //up
 		return 1;
 	}
-	if (keysDown[40]) { //down
+	if (keysDown[g_key_down]) { //down
 		return 2;
 	}
-	if (keysDown[37]) { //left
+	if (keysDown[g_key_left]) { //left
 		return 3;
 	}
-	if (keysDown[39]) { //right
+	if (keysDown[g_key_right]) { //right
 		return 4;
 	}
 }
@@ -483,6 +489,8 @@ function UpdatePosition() {
 	else if(numOfLifes==0 || time_elapsed==60){
 		window.clearInterval(interval);
 		window.alert("Loser");
+		f_ChangeSettings();
+		
 	}
 	else {
 		Draw(x);
@@ -553,10 +561,16 @@ function drawClock(){
 
 function drawAfterHit(){
 	//monsters in the corners
-	board[0][11]=9;
 	board[0][0]=5;
-	board[11][11]=5;
-	board[11][0]=9;
+	if(g_monsters_settings >= 2){
+		board[11][11]=9;
+	}
+	if(g_monsters_settings >= 3){
+		board[11][0]=5;
+	}
+	if(g_monsters_settings >= 4){
+		board[0][11]=5;
+	}
 
 	//pacman in random position
 	var x=Math.floor(Math.random() * 6 + 1);
@@ -656,8 +670,8 @@ function unShowAll(){
 	time.style.display = "none";
 	var set = document.getElementById("ChangeSettings");
 	set.style.display = "none";
-	var confirm = document.getElementById("Confirmation_settings");
-	confirm.style.display = "none";
+	var confi = document.getElementById("Confirmation_settings");
+	confi.style.display = "none";
 
 }
 
@@ -687,16 +701,12 @@ function welcome(){
 	window.location.href='#welcome';
 }
 
-function pre_changeSettings(){
-	unShowAll();
-	var setting = document.getElementById("ChangeSettings");
-	setting.style.display = "block";
-	window.location.href='#ChangeSettings';
-	f_ChangeSettings();
-}
-
 
 function f_ChangeSettings(){
+	unShowAll();
+	$("#ChangeSettings").show();
+	window.location.href='#ChangeSettings';
+
 	var text_up = document.getElementById("up");
 	var text_down = document.getElementById("down");
 	var text_right = document.getElementById("right");
@@ -704,9 +714,9 @@ function f_ChangeSettings(){
 	var number_time = document.getElementById("time_settings");
 	var number_monsters = document.getElementById("monsters_amount_settings");
 	var number_food = document.getElementById("amountFoodSettings");
-	//var c_5 = document.getElementById("color5_points");
-	//var c_15 = document.getElementById("color15_points");
-	//var c_25 = document.getElementById("color25_points");
+	var c_5 = document.getElementById("color5_points");
+	var c_15 = document.getElementById("color15_points");
+	var c_25 = document.getElementById("color25_points");
 
 
 
@@ -714,7 +724,6 @@ function f_ChangeSettings(){
 		text_up.placeholder= e.key;
 		g_key_up = e.keyCode;	
 		text_up.value = e.key;	
-		document.getElementById("value_up").textContent = e.key;
 		document.getElementById("up_conf").textContent = e.key;
 	  });
 	
@@ -722,17 +731,13 @@ function f_ChangeSettings(){
 		text_down.placeholder= e.key;
 		g_key_down = e.keyCode;	
 		text_down.value = e.key;	
-		document.getElementById("value_down").textContent = e.key;
 		document.getElementById("down_conf").textContent = e.key;
-
-
 	  });
 
 	text_right.addEventListener('keyup', (e) => {
 		text_right.placeholder= e.key;
 		g_key_right = e.keyCode;
 		text_right.value = e.key;	
-		document.getElementById("value_right").textContent = e.key;
 		document.getElementById("right_conf").textContent = e.key;
 
 	  });
@@ -741,39 +746,35 @@ function f_ChangeSettings(){
 		text_left.placeholder= e.key;
 		g_key_left = e.keyCode;	
 		text_left.value = e.key;
-		document.getElementById("value_left").textContent = e.key;
 		document.getElementById("left_conf").textContent = e.key;
 
 	  });
 
 	number_time.addEventListener('input', (e) => {
-		document.getElementById("value_time").textContent = number_time.value;
 		document.getElementById("time_conf").textContent = number_time.value;
 
 	  });
 
 	number_monsters.addEventListener('input', (e) => {
-		document.getElementById("value_monster").textContent = number_monsters.value;
 		document.getElementById("monsters_conf").textContent = number_monsters.value;
 
 	  });
 
 	number_food.addEventListener('input', (e) => {
-		document.getElementById("value_food").textContent = number_food.value;
 		document.getElementById("food_conf").textContent = number_food.value;
 	  });	
 
-	// c_5.addEventListener('change', (e) => {
-	// 	document.getElementById("points5_conf").style.color = c_5.value;
-	//   });	
+	c_5.addEventListener('change', (e) => {
+		document.getElementById("points5_conf").style.color = c_5.value;
+	  });	
 
-	// c_15.addEventListener('change', (e) => {
-	// 	document.getElementById("points15_conf").style.color = c_15.value;
-	//   });	
+	c_15.addEventListener('change', (e) => {
+		document.getElementById("points15_conf").style.color = c_15.value;
+	  });	
 	
-	// c_25.addEventListener('change', (e) => {
-	// 	document.getElementById("points25_conf").style.color = c_25.value;
-	//   });	  
+	c_25.addEventListener('change', (e) => {
+		document.getElementById("points25_conf").style.color = c_25.value;
+	  });	  
 }
 
 function showRegister(){
@@ -787,11 +788,9 @@ function showRegister(){
 
 function showLogin(){
 	unShowAll();
-	var login = document.getElementById("Login");
-	login.style.display = "block";
-	var Unregistered = document.getElementById("Unregistered");
-	Unregistered.style.display = "block";
+	$("#Login").show();
 	window.location.href='#Login';
+	$("#Unregistered").show();
 }
 
 
@@ -857,7 +856,7 @@ function registerComplete(){
 		localStorage.setItem(username,JSON.stringify({username: username, password: pass,
 			fullname: fullname, mail: mail, date: date}));
 		alert("added success");
-		f_Game();
+		showLogin();
 		
 	}
 	return;
@@ -894,7 +893,7 @@ function login(){
 			console.log("true");
 			alert("you entered everything ok");
 			userTitle = user;
-			f_Game();
+			f_ChangeSettings();
 			return;
 
 		} else {

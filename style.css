@@ -239,3 +239,46 @@ h1{
   font-size: medium;
   color: #fefefe;
 }
+
+.settings{
+  /* padding: 5px; */
+  background-color: grey;
+  font-size: medium;
+  text-align: center;
+  /* width: 30%;
+  height: 20%; */
+}
+
+
+.settings_inputs{
+  width: 25%;
+  padding: 5px;
+  margin: 2px 0 2px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  text-align: center;
+}
+
+
+#continue{
+  height: 40px;
+  width: 110px;
+}
+
+#continue:hover{
+  box-shadow: 0 0 0 2px black;
+}
+
+#random{
+  height: 40px;
+  width: 110px;
+}
+
+#random:hover{
+  box-shadow: 0 0 0 2px black;
+}
+
+
+
+

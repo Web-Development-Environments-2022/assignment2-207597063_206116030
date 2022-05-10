@@ -25,7 +25,6 @@
 				<li><a href="#Register" onclick="showRegister()"><b>Register</b></a></li>
 				<li><a href="#Login" onclick="showLogin()"><b>Login</b></a></li>
 				<li><a href="#about" onclick="showAbout()"><b>About</b></a></li>
-				<li><a href="#ChangeSettings" onclick="pre_changeSettings()"><b>settings</b></a></li>
 			</ul>
 		</div>
 
@@ -64,7 +63,7 @@
 			</p>
 
 			<p>
-				<button  type="submit" id="registerbtn" onclick="registerComplete()">Register</button>
+				<button  type="button" id="registerbtn" onclick="registerComplete()">Register</button>
 			</p>
 		</div>
 		
@@ -76,7 +75,7 @@
 		</div>
 		</form>
 
-		<div id="Confirmation_settings" style="color: white; text-align: center;">
+		<div id="Confirmation_settings" style="color: white; text-align: center;" hidden>
 			<lable>up: </lable>
 			<lable id="up_conf"></lable>
 			<br/>
@@ -109,43 +108,38 @@
 			<br/>
 
 			<p>
-				<button type="submit" onclick="pre_changeSettings()">back</button>
-				<button type="submit" onclick="random_settings()">random again</button>
-				<button type="submit" onclick="saveSettings()">start</button>		
+				<button type="button" onclick="f_ChangeSettings()">back</button>
+				<button type="button" onclick="random_settings()">random again</button>
+				<button type="button" onclick="saveSettings()">start</button>		
 			</p>
 
 
 		</div>
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
-			<div id="ChangeSettings" class="container" hidden >
+			<div id="ChangeSettings" class="settings" hidden >
 				<h1>Change Settings</h1>
 	
 				<p>
 					<strong>up </strong>
-					<input class="user_inputs" type="text" id="up" placeholder="ArrowUp" name="up" maxlength="1" autocomplete="off" required>
-					<label class="value_choose" id="value_up"></label>
+					<input class="settings_inputs" type="text" id="up" placeholder="ArrowUp" name="up" maxlength="1" autocomplete="off" required>
 				</p>
 				<p>
 					<strong>down </strong>
-					<input class="user_inputs" type="text" id="down" placeholder="ArrowDown" name="down" maxlength="1" autocomplete="off" required>
-					<label class="value_choose" id="value_down"></label>
+					<input class="settings_inputs" type="text" id="down" placeholder="ArrowDown" name="down" maxlength="1" autocomplete="off" required>
 				</p>
 				<p>
 					<strong>right </strong>
-					<input class="user_inputs" type="text" id="right" placeholder="ArrowRight" name="right" maxlength="1" autocomplete="off" required>
-					<label class="value_choose" id="value_right"></label>
+					<input class="settings_inputs" type="text" id="right" placeholder="ArrowRight" name="right" maxlength="1" autocomplete="off" required>
 				</p>
 				<p>
 					<strong>left </strong>
-					<input class="user_inputs" type="text" id="left" placeholder="ArrowLeft" name="left" maxlength="1" autocomplete="off" required>
-					<label class="value_choose" id="value_left"></label>
+					<input class="settings_inputs" type="text" id="left" placeholder="ArrowLeft" name="left" maxlength="1" autocomplete="off" required>
 				</p>
 
 				<p>
 					<strong>Amount of food</strong>
-					<input class="user_inputs" type="number" id="amountFoodSettings" placeholder="(50-90)" name="amountFoodSettings" maxlength="2" autocomplete="off" min="50" max="90" required>
-					<label class="value_choose" id="value_food"></label>
+					<input class="settings_inputs" type="number" id="amountFoodSettings" placeholder="(50-90)" name="amountFoodSettings" maxlength="2" autocomplete="off" min="50" max="90" required>
 
 				</p>
 
@@ -167,24 +161,22 @@
 				
 				<p>
 					<strong>time (sec)</strong>
-					<input class="user_inputs" type="number" id="time_settings" placeholder="min 60 sec" name="time_settings" autocomplete="off" min="60" required>
-					<label class="value_choose" id="value_time"></label>
+					<input class="settings_inputs" type="number" id="time_settings" placeholder="min 60 sec" name="time_settings" autocomplete="off" min="60" required>
 				</p>
 
 				<p>
 					<strong>Monsters amount</strong>
-					<input class="user_inputs" type="number" id="monsters_amount_settings" placeholder="1-4 monsters" name="monsters_amount_settings" autocomplete="off" min="1" max="4" required>
-					<label class="value_choose" id="value_monster"></label>
+					<input class="settings_inputs" type="number" id="monsters_amount_settings" placeholder="1-4 monsters" name="monsters_amount_settings" autocomplete="off" min="1" max="4" required>
 				</p>
 
 				<p>
-					<button type="button" onclick="random_settings()">random settings</button>
-					<button type="submit" onclick="confirmation()">continue</button>
-
+					<input type="button" id="random" value="random settings" onclick="random_settings()">
+					<input type="button" id="continue" value="continue" onclick="confirmation()">
+					
 				</p>
 			</div>
 			
-			</form>
+		</form>
 
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
@@ -204,7 +196,7 @@
 			<br/>
 
 
-			<button type="submit" id="loginbtn" onclick="login()">Login</button>
+			<button type="button" id="loginbtn" onclick="login()">Login</button>
 
 		</div>
 
