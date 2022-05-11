@@ -15,11 +15,17 @@ var m4Shape=new Object();
 m4Shape.i=0;
 m4Shape.j=11;
 var angShape=new Object();
+angShape.i = 6;
+angShape.j = 6;
+angShape.live = true;
 
 var board;
 var score;
 var audio = new Audio('images/song.mp3');
 var hitA  =new Audio('images/pacHit.mp3');
+var bonus = new Audio('images/Bonus.wav');
+var clock_sound = new Audio('images/clock_sound.mp3');
+var heart_sound = new Audio('images/heart_sound.mp3');
 audio.loop = true;
 var pac_color;
 var start_time;
@@ -29,6 +35,7 @@ var interval2;
 var interval3;
 var interval4;
 var interval5;
+var intervalAngel;
 
 var userTitle = "";
 var modelOn=false;
@@ -79,7 +86,6 @@ localStorage.setItem("k",JSON.stringify({
 //load page
 $(document).ready(function() {
 	welcome();
-	
 });
 
 
@@ -265,6 +271,10 @@ function Start() {
 	m3Shape.j=0;
 	m4Shape.i=0;
 	m4Shape.j=11;
+	angShape.i=6;
+	angShape.j=6;
+	angShape.live = true;
+	hasClock=false;
 	pac_color = "yellow";
 	var cnt = 144;
 	//var food_remain = 80;
@@ -302,6 +312,7 @@ function Start() {
 		interval4=setInterval(UpdateMonster3Position, 1000);
 		interval5=setInterval(UpdateMonster4Position, 1000);
 	}
+	intervalAngel=setInterval(UpdateAngelPosition, 500);
 	start_time = new Date();
 	for (var i = 0; i < 12; i++) {
 		board[i] = new Array();
@@ -376,10 +387,12 @@ function Start() {
 				board[m4Shape.i][m4Shape.j] = 5; //monster -life -10 score
 			}
 
-			else if((i==6 && j==6)){
-				board[i][j] = 6;
+			// else if((i==6 && j==6)){
+			// 	angShape.i = i;
+			// 	angShape.j = j;
+			// 	board[i][j] = 6;
 
-			}
+			// }
 			else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * g_food_remain) / cnt) {
@@ -450,6 +463,13 @@ function GetKeyPressed() {
 	}
 }
 
+function samePositionAngel(){ //if angel (+50 points) touch pacman
+	if(angShape.i == shape.i && angShape.j == shape.j){
+		return true;
+	}
+	else return false;
+}
+
 function samePosition10(){ //if monster (10 points) catch pacman
 	if((m1Shape.i == shape.i && m1Shape.j == shape.j) || (m3Shape.i == shape.i && m3Shape.j == shape.j) ||(m4Shape.i == shape.i && m4Shape.j == shape.j)){
 		return true;
@@ -466,6 +486,13 @@ function samePosition25(){ //if monster (25 points) catch pacman
 
 function existMonster(i,j){
 	if((m1Shape.i == i && m1Shape.j == j) || (m2Shape.i == i && m2Shape.j == j) || (m3Shape.i == i && m3Shape.j == j) ||(m4Shape.i == i && m4Shape.j == j)){
+		return true;
+	}
+	else return false;
+}
+
+function existAngel(i,j){
+	if((angShape.live == true) && (angShape.i == i && angShape.j == j)){
 		return true;
 	}
 	else return false;
@@ -494,6 +521,15 @@ function Draw(x) {
 		drawAfterHit();
 		return;
 	}
+	if(samePositionAngel()){
+		//if angel (25 points) touch pacman
+		if(angShape.live == true){
+			angShape.live = false;
+			score+=50;
+			bonus.play();
+			window.clearInterval(intervalAngel);
+		}
+	}
 	if(g_monsters_settings == 1){
 		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
 	}
@@ -512,7 +548,11 @@ function Draw(x) {
 		context.drawImage(monster1,m3Shape.i * 60 + 15,m3Shape.j * 60 + 15);
 		context.drawImage(monster1,m4Shape.i * 60 + 15,m4Shape.j * 60 + 15);
 	}
-
+	
+	if(angShape.live == true){
+		context.drawImage(angel,angShape.i * 60 + 15,angShape.j * 60 + 15);
+	}
+	
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -562,7 +602,7 @@ function Draw(x) {
 					context.fill();
 				}
 			} else if (board[i][j] == 1.5 || board[i][j] == 1.15 || board[i][j] == 1.25) { //food
-				if(!existMonster(i,j)){
+				if(!existMonster(i,j) && !existAngel(i,j)){
 					context.beginPath();
 					context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
 					if(board[i][j] == 1.5){
@@ -584,18 +624,13 @@ function Draw(x) {
 				console.log("draw walls on: "+i+" "+j);
 			}
 
-			else if (board[i][j] == 6) { // angel +50 score
-				if(!existMonster(i,j)){
-					context.drawImage(angel,center.x-15,center.y-15);
-				}
-			}
 			else if (board[i][j] == 7) { //med +life
-				if(!existMonster(i,j)){
+				if(!existMonster(i,j) && !existAngel(i,j)){
 					context.drawImage(med,center.x-15,center.y-15);
 				}
 			}
 			else if (board[i][j] == 8) { //clock + 20 sec
-				if(!existMonster(i,j)){
+				if(!existMonster(i,j) && !existAngel(i,j)){
 					context.drawImage(clock,center.x-15,center.y-15);
 				}
 
@@ -603,8 +638,41 @@ function Draw(x) {
 
 		}
 	}
-
 }
+
+function UpdateAngelPosition(){
+	var random = Math.floor(Math.random() * (4) ) + 1;
+	var bool = true;
+	while(bool==true){
+		if(random == 1){
+			if (angShape.j > 0 && board[angShape.i][angShape.j - 1] != 4){
+				bool = false;
+				angShape.j--;
+			}
+		}
+		else if(random == 2){
+			if (angShape.j < 11 && board[angShape.i][angShape.j + 1] != 4){
+				bool = false;
+				angShape.j++;
+			}
+		}
+		else if(random == 3){
+			if (angShape.i > 0 && board[angShape.i - 1][angShape.j] != 4){
+				bool = false;
+				angShape.i--;
+			}
+		}
+		else{
+			if (angShape.i < 11 && board[angShape.i + 1][angShape.j] != 4){
+				bool = false;
+				angShape.i++;
+			}
+		}
+		random = Math.floor(Math.random() * (4) ) + 1;
+	}
+	
+}
+
 function UpdateMonster1Position(){
 	var maxSize=17;
 	var choice=0;
@@ -953,6 +1021,7 @@ function clearAllInterval(){
 	window.clearInterval(interval3);
 	window.clearInterval(interval4);
 	window.clearInterval(interval5);
+	window.clearInterval(intervalAngel);
 }
 
 function UpdatePosition() {
@@ -1012,10 +1081,16 @@ function UpdatePosition() {
 		drawAfterHit();
 
 	}
-	if(board[shape.i][shape.j] == 6){ //angel
-		score+=50;
+	if(samePositionAngel()){ //angel
+		if(angShape.live == true){
+			angShape.live = false;
+			score+=50;
+			bonus.play();
+			window.clearInterval(intervalAngel);
+		}
 	}
 	if(board[shape.i][shape.j] == 7){ //med
+		heart_sound.play();
 		numOfLifes+=1;
 		addLife();
 		hasMed=false;
@@ -1025,6 +1100,7 @@ function UpdatePosition() {
 	time_elapsed = (currentTime - start_time) / 1000;
 
 	if(board[shape.i][shape.j] == 8){ //clock
+		clock_sound.play();
 		g_time_settings+=(20/1000);
 		hasClock=false;
 	}
@@ -1155,60 +1231,39 @@ function drawAfterHit(){
 	board[m1Shape.i][m1Shape.j]=0;
 	m1Shape.i=0;
 	m1Shape.j=0;
-	//board[m1Shape.i][m1Shape.j]=5;
 	if(g_monsters_settings == 1){
-		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		//board[m1Shape.i][m1Shape.j]=5;
 	}
 	if(g_monsters_settings == 2){
-		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		//board[m1Shape.i][m1Shape.j]=5;
 
-		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		//board[m2Shape.i][m2Shape.j]=9;
 	}
 	if(g_monsters_settings == 3){
-		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		//board[m1Shape.i][m1Shape.j]=5;
 
-		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		//board[m2Shape.i][m2Shape.j]=9;
-		
-		//board[m3Shape.i][m3Shape.j]=0;
+
 		m3Shape.i=11;
 		m3Shape.j=0;
-		//board[m3Shape.i][m3Shape.j]=5;
 	}
 	if(g_monsters_settings == 4){
-		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		//board[m1Shape.i][m1Shape.j]=5;
 
-		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		//board[m2Shape.i][m2Shape.j]=9;
-		
-		//board[m3Shape.i][m3Shape.j]=0;
+
 		m3Shape.i=11;
 		m3Shape.j=0;
-		//board[m3Shape.i][m3Shape.j]=5;
 
-		//board[m4Shape.i][m4Shape.j]=0;
 		m4Shape.i=0;
 		m4Shape.j=11;
-		//board[m4Shape.i][m4Shape.j]=5;
 	}
 
 	//pacman in random position
@@ -1614,7 +1669,6 @@ function login(){
 	else{
 		if (isUserValid(user, pass)) {
 			console.log("true");
-			alert("you entered everything ok");
 			userTitle = user;
 			f_ChangeSettings();
 			return;
