@@ -1371,6 +1371,13 @@ function unShowAll(){
 		audio.pause();
 		audio.currentTime =0;
 	}
+	document.getElementById("userLogin").value = "";
+	document.getElementById("pswLogin").value = "";	
+	document.getElementById("username").value = "";	
+	document.getElementById("password").value = "";	
+	document.getElementById("fullname").value = "";	
+	document.getElementById("mail").value = "";	
+
 	$("#welcome").hide();
 	$("#Login").hide();
 	$("#Unregistered").hide();
