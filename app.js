@@ -45,7 +45,6 @@ var wasClock=false;
 var hasClock=false;
 var hasMed=false;
 var keysDown;
-var food_on_board = 0;
 
 //settings
 var g_key_up = 38;
@@ -98,7 +97,6 @@ function saveSettings(){
 	g_color25points = document.getElementById("color25_points").value;
 	g_time_settings = document.getElementById("time_settings").value;
 	g_monsters_settings = document.getElementById("monsters_amount_settings").value;
-	food_on_board = g_food_remain;
 	f_Game();
 }
 
@@ -110,7 +108,6 @@ function confirmation(){
 	var c_food = document.getElementById("amountFoodSettings").value;
 	var c_time = document.getElementById("time_settings").value;
 	var c_monster = document.getElementById("monsters_amount_settings").value;
-	food_on_board = g_food_remain;
 
 	if (c_up === "" || c_down === "" || c_right === "" || c_left === "" ||c_food === "" || c_time === "" || c_monster === ""){
 		alert("you missed details!")
@@ -389,12 +386,10 @@ function Start() {
 				board[m4Shape.i][m4Shape.j] = 5; //monster -life -10 score
 			}
 
-			// else if((i==6 && j==6)){
-			// 	angShape.i = i;
-			// 	angShape.j = j;
-			// 	board[i][j] = 6;
-
-			// }
+			else if((i==6 && j==6)){
+				angShape.i = i;
+				angShape.j = j;
+			}
 			else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * g_food_remain) / cnt) {
@@ -1026,6 +1021,18 @@ function clearAllInterval(){
 	window.clearInterval(intervalAngel);
 }
 
+function food_on_board(){
+	var count = 0;
+	for (var i = 0; i < 12; i++) {
+		for (var j = 0; j < 12; j++) {
+			if(board[i][j] == 1.5 || board[i][j] == 1.15 || board[i][j] == 1.25){
+				count++;
+			}
+		}
+	} 
+	return count;
+}
+
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
@@ -1058,15 +1065,13 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 1.5) { //food 5 points
 		score = score +5;
-		food_on_board--;
+
 	}
 	if (board[shape.i][shape.j] == 1.15) { //food 15 points
 		score = score +15;
-		food_on_board--;
 	}
 	if (board[shape.i][shape.j] == 1.25) { //food 25 points
 		score = score +25;
-		food_on_board--;
 	}
 	if(samePosition10()){ //monster
 		score-=10;
@@ -1121,6 +1126,8 @@ function UpdatePosition() {
 			drawMed();
 		}
 	}
+
+
 	if(g_time_settings-time_elapsed<200){
 		if(!hasClock && !wasClock){
 			drawClock();
@@ -1154,7 +1161,7 @@ function UpdatePosition() {
 		  }
 		return;
 	}
-	else if(food_on_board == 0){
+	else if(food_on_board() == 0){
 		clearAllInterval();
 		if (confirm("Winner!!! \nYou eat all the food and you have "+score+" points!\n Do you want to play again?")) {
 			f_ChangeSettings();
@@ -1188,8 +1195,6 @@ function drawClock(){
 function drawAfterHit(){
 	//monsters in the corners
 	board[m1Shape.i][m1Shape.j]=0;
-	m1Shape.i=0;
-	m1Shape.j=0;
 	if(g_monsters_settings == 1){
 		m1Shape.i=0;
 		m1Shape.j=0;
@@ -1230,15 +1235,12 @@ function drawAfterHit(){
 	if(x==1){
 		if (board[5][2] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[5][2] == 1.15) { //food 15 points
+		else if (board[5][2] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[5][2] == 1.25) { //food 25 points
+		else if (board[5][2] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[5][2]=2;
 		shape.i=5;
@@ -1247,15 +1249,12 @@ function drawAfterHit(){
 	else if(x==2){
 		if (board[6][3] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[6][3] == 1.15) { //food 15 points
+		else if (board[6][3] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[6][3] == 1.25) { //food 25 points
+		else if (board[6][3] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[6][3]=2;
 		shape.i=6;
@@ -1264,15 +1263,12 @@ function drawAfterHit(){
 	else if(x==3){
 		if (board[9][5] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[9][5] == 1.15) { //food 15 points
+		else if (board[9][5] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[9][5] == 1.25) { //food 25 points
+		else if (board[9][5] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[9][5]=2;
 		shape.i=9;
@@ -1281,15 +1277,12 @@ function drawAfterHit(){
 	else if(x==4){
 		if (board[8][9] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[8][9] == 1.15) { //food 15 points
+		else if (board[8][9] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[8][9] == 1.25) { //food 25 points
+		else if (board[8][9] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[8][9]=2;
 		shape.i=8;
@@ -1298,15 +1291,12 @@ function drawAfterHit(){
 	else if(x==5){
 		if (board[4][6] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[4][6] == 1.15) { //food 15 points
+		else if (board[4][6] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[4][6] == 1.25) { //food 25 points
+		else if (board[4][6] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[4][6]=2;
 		shape.i=4;
@@ -1315,15 +1305,12 @@ function drawAfterHit(){
 	else{
 		if (board[0][3] == 1.5) { //food 5 points
 			score = score +5;
-			food_on_board--;
 		}
-		if (board[0][3] == 1.15) { //food 15 points
+		else if (board[0][3] == 1.15) { //food 15 points
 			score = score +15;
-			food_on_board--;
 		}
-		if (board[0][3] == 1.25) { //food 25 points
+		else if (board[0][3] == 1.25) { //food 25 points
 			score = score +25;
-			food_on_board--;
 		}
 		board[0][3]=2;
 		shape.i=0;
