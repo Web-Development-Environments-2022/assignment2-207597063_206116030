@@ -25,6 +25,11 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval; 
+var interval2;
+var interval3;
+var interval4;
+var interval5;
+
 var userTitle = "";
 var modelOn=false;
 var numOfLifes=5;
@@ -85,6 +90,7 @@ function saveSettings(){
 	g_color25points = document.getElementById("color25_points").value;
 	g_time_settings = document.getElementById("time_settings").value;
 	g_monsters_settings = document.getElementById("monsters_amount_settings").value;
+
 	f_Game();
 }
 
@@ -248,19 +254,58 @@ function Start() {
 	shape.i = 5;
 	shape.j = 0;
 	score = 0;
+	m1Shape.i=0;
+	m1Shape.j=0;
+	m2Shape.i=11;
+	m2Shape.j=11;
+	m3Shape.i=11;
+	m3Shape.j=0;
+	m4Shape.i=0;
+	m4Shape.j=11;
 	pac_color = "yellow";
 	var cnt = 144;
 	//var food_remain = 80;
 	var pacman_remain = 1;
 	var randomType;
 	calc_food();
+	interval = setInterval(UpdatePosition, 100);
+	if(g_monsters_settings==1){
+		interval2=setInterval(UpdateMonster1Position, 1000);
+		m2Shape.i = 100;
+		m2Shape.j = 100;
+		m3Shape.i = 100;
+		m3Shape.j = 100;
+		m4Shape.i = 100;
+		m4Shape.j = 100;
+	}
+	else if(g_monsters_settings==2){
+		interval2=setInterval(UpdateMonster1Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 1000);
+		m3Shape.i = 100;
+		m3Shape.j = 100;
+		m4Shape.i = 100;
+		m4Shape.j = 100;
+	}
+	else if(g_monsters_settings==3){
+		interval2=setInterval(UpdateMonster1Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 1000);
+		interval4=setInterval(UpdateMonster3Position, 1000);
+		m4Shape.i = 100;
+		m4Shape.j = 100;
+	}
+	else if(g_monsters_settings==4){
+		interval2=setInterval(UpdateMonster1Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 1000);
+		interval4=setInterval(UpdateMonster3Position, 1000);
+		interval5=setInterval(UpdateMonster4Position, 1000);
+	}
 	start_time = new Date();
 	for (var i = 0; i < 12; i++) {
 		board[i] = new Array();
 		for (var j = 0; j < 12; j++) {
 			if (
 				(i == 1 && j == 0) ||
-				(i == 7 && j == 0) ||
+				// (i == 7 && j == 0) ||
 				(i == 9 && j == 0) ||
 				(i == 1 && j == 1) ||
 				(i == 2 && j == 1) ||
@@ -268,16 +313,16 @@ function Start() {
 				(i == 4 && j == 1) ||
 				(i == 7 && j == 1) ||
 				(i == 11 && j == 1) ||
-				(i == 4 && j == 2) ||
+				// (i == 4 && j == 2) ||
 				(i == 7 && j == 2) ||
 				(i == 8 && j == 2) ||
 				(i == 11 && j == 2) ||
 				(i == 2 && j == 3) ||
-				(i == 3 && j == 3) ||
+				// (i == 3 && j == 3) ||
 				(i == 4 && j == 3) ||
 				(i == 5 && j == 3) ||
 				(i == 8 && j == 3) ||
-				(i == 2 && j == 4) || //maybe delete later
+				// (i == 2 && j == 4) || //maybe delete later
 				(i == 8 && j == 4) ||
 				(i == 11 && j == 4) ||
 				(i == 1 && j == 5) ||
@@ -287,16 +332,16 @@ function Start() {
 				(i == 6 && j == 5) ||
 				(i == 8 && j == 6) ||
 				(i == 11 && j == 6) ||
-				(i == 0 && j == 7) ||
+				// (i == 0 && j == 7) ||
 				(i == 1 && j == 7) ||
-				(i == 2 && j == 7) ||
+				// (i == 2 && j == 7) ||
 				(i == 3 && j == 7) ||
-				(i == 5 && j == 7) ||
+				// (i == 5 && j == 7) ||
 				(i == 9 && j == 7) ||
-				(i == 1 && j == 8) ||
+				// (i == 1 && j == 8) ||
 				(i == 3 && j == 8) ||
 				(i == 5 && j == 8) ||
-				(i == 7 && j == 8) ||
+				// (i == 7 && j == 8) ||
 				(i == 8 && j == 8) ||
 				(i == 5 && j == 9) ||
 				(i == 7 && j == 9) ||
@@ -304,7 +349,7 @@ function Start() {
 				(i == 2 && j == 10) ||
 				(i == 5 && j == 10) ||
 				(i == 11 && j == 10) ||
-				(i == 2 && j == 11) ||
+				// (i == 2 && j == 11) ||
 				(i == 5 && j == 11) ||
 				(i == 8 && j == 11) 
 			) {
@@ -372,26 +417,8 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 100);
-	if(g_monsters_settings==1){
-		interval2=setInterval(UpdateMonster1Position, 500);
-	}
-	else if(g_monsters_settings==2){
-		interval2=setInterval(UpdateMonster1Position, 500);
-		interval3=setInterval(UpdateMonster2Position, 500);
-	}
-	else if(g_monsters_settings==3){
-		interval2=setInterval(UpdateMonster1Position, 500);
-		interval3=setInterval(UpdateMonster2Position, 500);
-		interval4=setInterval(UpdateMonster3Position, 500);
-	}
-	else if(g_monsters_settings==4){
-		interval2=setInterval(UpdateMonster1Position, 500);
-		interval3=setInterval(UpdateMonster2Position, 500);
-		interval4=setInterval(UpdateMonster3Position, 500);
-		interval5=setInterval(UpdateMonster4Position, 500);
 
-	}
+
 
 }
 
@@ -425,6 +452,24 @@ function Draw(x) {
 	lblScore.value = score;
 	lblUser.value=userTitle;
 	lblTime.value = (g_time_settings - time_elapsed).toFixed(2);
+	if(((shape.i == m1Shape.i) && (shape.j==m1Shape.j)) || ((shape.i == m3Shape.i) && (shape.j==m3Shape.j)) || ((shape.i == m4Shape.i) && (shape.j==m4Shape.j))){
+		//if monster (10 points) catch pacman
+		score-=10;
+		numOfLifes-=1;
+		removeLife();	
+		hitA.play();
+		drawAfterHit();
+		return;
+	}
+	if((shape.i == m2Shape.i) && (shape.j==m2Shape.j)){ 
+		//if monster (25 points) catch pacman
+		score-=25;
+		numOfLifes-=1;
+		removeLife();	
+		hitA.play();
+		drawAfterHit();
+		return;
+	}
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -520,9 +565,10 @@ function UpdateMonster1Position(){
 	var choice=0;
 	var gotHim=false;
 	var gotChoice=0;
+	var calc;
 	board[m1Shape.i][m1Shape.j]=0;
 	if (m1Shape.j > 0 && board[m1Shape.i][m1Shape.j - 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j-1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=1;
@@ -534,7 +580,7 @@ function UpdateMonster1Position(){
 		
 	}
 	if (m1Shape.j < 11 && board[m1Shape.i][m1Shape.j + 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j+1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j+1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=2;
@@ -545,7 +591,7 @@ function UpdateMonster1Position(){
 		}		
 	}
 	if (m1Shape.i > 0 && board[m1Shape.i - 1][m1Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m1Shape.i-1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m1Shape.i-1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=3;
@@ -557,7 +603,7 @@ function UpdateMonster1Position(){
 	}
 
 	if (m1Shape.i < 11 && board[m1Shape.i + 1][m1Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m1Shape.i+1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m1Shape.i+1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=4;
@@ -605,9 +651,10 @@ function UpdateMonster2Position(){
 	var choice=0;
 	var gotHim=false;
 	var gotChoice=0;
+	var calc;
 	board[m2Shape.i][m2Shape.j]=0;
 	if (m2Shape.j > 0 && board[m2Shape.i][m2Shape.j - 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j-1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=1;
@@ -619,7 +666,7 @@ function UpdateMonster2Position(){
 		
 	}
 	if (m2Shape.j < 11 && board[m2Shape.i][m2Shape.j + 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j+1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j+1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=2;
@@ -630,7 +677,7 @@ function UpdateMonster2Position(){
 		}		
 	}
 	if (m2Shape.i > 0 && board[m2Shape.i - 1][m2Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m2Shape.i-1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m2Shape.i-1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=3;
@@ -642,7 +689,7 @@ function UpdateMonster2Position(){
 	}
 
 	if (m2Shape.i < 11 && board[m2Shape.i + 1][m2Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m2Shape.i+1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m2Shape.i+1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=4;
@@ -689,9 +736,10 @@ function UpdateMonster3Position(){
 	var choice=0;
 	var gotHim=false;
 	var gotChoice=0;
+	var calc;
 	board[m3Shape.i][m3Shape.j]=0;
 	if (m3Shape.j > 0 && board[m3Shape.i][m3Shape.j - 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j-1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=1;
@@ -703,7 +751,7 @@ function UpdateMonster3Position(){
 		
 	}
 	if (m3Shape.j < 11 && board[m3Shape.i][m3Shape.j + 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j+1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j+1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=2;
@@ -714,7 +762,7 @@ function UpdateMonster3Position(){
 		}		
 	}
 	if (m3Shape.i > 0 && board[m3Shape.i - 1][m3Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m3Shape.i-1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m3Shape.i-1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=3;
@@ -726,7 +774,7 @@ function UpdateMonster3Position(){
 	}
 
 	if (m3Shape.i < 11 && board[m3Shape.i + 1][m3Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m3Shape.i+1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m3Shape.i+1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=4;
@@ -773,9 +821,10 @@ function UpdateMonster4Position(){
 	var choice=0;
 	var gotHim=false;
 	var gotChoice=0;
+	var calc;
 	board[m4Shape.i][m4Shape.j]=0;
 	if (m4Shape.j > 0 && board[m4Shape.i][m4Shape.j - 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j-1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=1;
@@ -787,7 +836,7 @@ function UpdateMonster4Position(){
 		
 	}
 	if (m4Shape.j < 11 && board[m4Shape.i][m4Shape.j + 1] != 4) {
-		var calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j+1)-shape.j), 2));
+		calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j+1)-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=2;
@@ -798,7 +847,7 @@ function UpdateMonster4Position(){
 		}		
 	}
 	if (m4Shape.i > 0 && board[m4Shape.i - 1][m4Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m4Shape.i-1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m4Shape.i-1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=3;
@@ -810,7 +859,7 @@ function UpdateMonster4Position(){
 	}
 
 	if (m4Shape.i < 11 && board[m4Shape.i + 1][m4Shape.j] != 4) {
-		var calc=Math.sqrt( Math.pow(((m4Shape.i+1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
+		calc=Math.sqrt( Math.pow(((m4Shape.i+1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
 		if(calc<=maxSize){
 			maxSize=calc;
 			choice=4;
@@ -851,6 +900,16 @@ function UpdateMonster4Position(){
 	board[m4Shape.i][m4Shape.j]=5;
 
 }
+
+
+function clearAllInterval(){
+	window.clearInterval(interval);
+	window.clearInterval(interval2);
+	window.clearInterval(interval3);
+	window.clearInterval(interval4);
+	window.clearInterval(interval5);
+}
+
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
@@ -939,20 +998,32 @@ function UpdatePosition() {
 		}
 	}
 	if (g_time_settings-time_elapsed<0) {
-		window.clearInterval(interval);
+		clearAllInterval();
 		if(score>=100){
-			window.alert("Winner!!!");
+			if (confirm("Winner!!! \n You have "+score+" points!\n Do you want to play again?")) {
+				f_ChangeSettings();
+			  } else {
+				welcome();
+			  }
+			return;
 		}
 		else{
-			window.alert("You are better then "+score+"points!");
-
+			if (confirm("You are better then "+score+"points!\n Do you want to play again?")) {
+				f_ChangeSettings();
+			  } else {
+				welcome();
+			  }
+			return;
 		}
 	}
 	else if(numOfLifes==0){
-		window.clearInterval(interval);
-		window.alert("Loser");
-		f_ChangeSettings();
-		
+		clearAllInterval();
+		if (confirm("loser! \n Do you want to play again?")) {
+			f_ChangeSettings();
+		  } else {
+			welcome();
+		  }
+		return;
 	}
 	else {
 		Draw(x);
@@ -1212,6 +1283,7 @@ function welcome(){
 
 
 function f_ChangeSettings(){
+	clearAllInterval();
 	unShowAll();
 	$("#ChangeSettings").show();
 	window.location.href='#ChangeSettings';
