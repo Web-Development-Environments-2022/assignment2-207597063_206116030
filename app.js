@@ -41,6 +41,7 @@ var userTitle = "";
 var modelOn=false;
 var numOfLifes=5;
 var lastPrased=4;
+var wasClock=false;
 var hasClock=false;
 var hasMed=false;
 var keysDown;
@@ -275,6 +276,7 @@ function Start() {
 	angShape.j=6;
 	angShape.live = true;
 	hasClock=false;
+	wasClock=false;
 	pac_color = "yellow";
 	var cnt = 144;
 	//var food_remain = 80;
@@ -1094,6 +1096,7 @@ function UpdatePosition() {
 		numOfLifes+=1;
 		addLife();
 		hasMed=false;
+		board[shape.i][shape.j] = 0;
 	}
 
 	var currentTime = new Date();
@@ -1101,8 +1104,10 @@ function UpdatePosition() {
 
 	if(board[shape.i][shape.j] == 8){ //clock
 		clock_sound.play();
-		g_time_settings+=(20/1000);
+		g_time_settings = parseInt(g_time_settings) + 20;
 		hasClock=false;
+		wasClock=true;
+		board[shape.i][shape.j] = 0;
 	}
 	board[shape.i][shape.j] = 2;
 	if(score>=0 ){
@@ -1117,7 +1122,7 @@ function UpdatePosition() {
 		}
 	}
 	if(g_time_settings-time_elapsed<200){
-		if(!hasClock){
+		if(!hasClock && !wasClock){
 			drawClock();
 		}
 	}
@@ -1151,7 +1156,7 @@ function UpdatePosition() {
 	}
 	else if(food_on_board == 0){
 		clearAllInterval();
-		if (confirm("Winner!!! \nYou eat all the food!\nYou have "+score+" points!\n Do you want to play again?")) {
+		if (confirm("Winner!!! \nYou eat all the food and you have "+score+" points!\n Do you want to play again?")) {
 			f_ChangeSettings();
 		}
 		else {
@@ -1165,64 +1170,18 @@ function UpdatePosition() {
 }
 
 function drawMed(){
-//med in random position
-hasMed=true;
-var x=Math.floor(Math.random() * 6 + 1);
-if(x==1){
-	board[6][11]=7;
-
-}
-else if(x==2){
-	board[7][6]=7;
-
-}
-else if(x==3){
-	board[9][5]=7;
-
-}
-else if(x==4){
-	board[9][5]=7;
-
-}
-else if(x==5){
-	board[0][6]=7;
-
-}
-else{
-	board[10][0]=7;
-
-}
+	//med in random position
+	hasMed=true;
+	var emptyCell = findRandomEmptyCell(board);
+	board[emptyCell[0]][emptyCell[1]] = 7;
 
 }
 
 function drawClock(){
 	//clock in random position
 	hasClock=true;
-	var x=Math.floor(Math.random() * 6 + 1);
-	if(x==1){
-		board[4][5]=8;
-
-	}
-	else if(x==2){
-		board[10][7]=8;
-
-	}
-	else if(x==3){
-		board[0][9]=8;
-
-	}
-	else if(x==4){
-		board[2][3]=8;
-
-	}
-	else if(x==5){
-		board[2][9]=8;
-
-	}
-	else{
-		board[8][7]=8;
-
-	}
+	var emptyCell = findRandomEmptyCell(board);
+	board[emptyCell[0]][emptyCell[1]] = 8;
 
 }
 
