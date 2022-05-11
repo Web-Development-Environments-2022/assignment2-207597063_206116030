@@ -14,7 +14,7 @@
 
 		<div id="header">
 			<img id="header-img3" src="images/pacLogo2.jpg" />
-			<h3 id="writers">Yuval felendler & Amit partuk</h3>
+			<strong id="writers">Yuval felendler & Amit partuk</strong>
 		</div>
 
 
@@ -75,46 +75,6 @@
 		</div>
 		</form>
 
-		<div id="Confirmation_settings" style="color: white; text-align: center;" hidden>
-			<lable>up: </lable>
-			<lable id="up_conf"></lable>
-			<br/>
-			<lable>down: </lable>
-			<lable id="down_conf"></lable>
-			<br/>
-			<lable>right: </lable>
-			<lable id="right_conf"></lable>
-			<br/>
-			<lable>left: </lable>
-			<lable id="left_conf"></lable>
-			<br/>
-			<lable>food: </lable>
-			<lable id="food_conf"></lable>
-			<br/>
-			<lable>5 points: </lable>
-			<lable id="points5_conf"> color</lable>
-			<br/>
-			<lable>15 points: </lable>
-			<lable id="points15_conf"> color</lable>
-			<br/>
-			<lable>25 points: </lable>
-			<lable id="points25_conf"> color</lable>
-			<br/>
-			<lable>time: </lable>
-			<lable id="time_conf"></lable>
-			<br/>
-			<lable>monsters: </lable>
-			<lable id="monsters_conf"></lable>
-			<br/>
-
-			<p>
-				<button type="button" onclick="f_ChangeSettings()">back</button>
-				<button type="button" onclick="random_settings()">random again</button>
-				<button type="button" onclick="saveSettings()">start</button>		
-			</p>
-
-
-		</div>
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
 			<div id="ChangeSettings" class="settings" hidden >
@@ -215,7 +175,7 @@
 			</div>
 		  </div>
 
-			<div id="score" hidden >
+			<!-- <div id="score" hidden >
 				<label class="user-label" id="scorelabel" for="lblScore">SCORE:</label>
 				<input class="lbl" id="lblScore" type="text" />
 			</div>
@@ -238,10 +198,135 @@
 			<img id="life4" src="images/life.png">
 			<img id="life5" src="images/life.png">
 
+		</div> -->
+
+		<!-- <div id="Confirmation_settings" style="color: white; text-align: center;" hidden>
+			<lable>up: </lable>
+			<lable id="up_conf"></lable>
+			<br/>
+			<lable>down: </lable>
+			<lable id="down_conf"></lable>
+			<br/>
+			<lable>right: </lable>
+			<lable id="right_conf"></lable>
+			<br/>
+			<lable>left: </lable>
+			<lable id="left_conf"></lable>
+			<br/>
+			<lable>food: </lable>
+			<lable id="food_conf"></lable>
+			<br/>
+			<lable>5 points: </lable>
+			<lable id="points5_conf"> color</lable>
+			<br/>
+			<lable>15 points: </lable>
+			<lable id="points15_conf"> color</lable>
+			<br/>
+			<lable>25 points: </lable>
+			<lable id="points25_conf"> color</lable>
+			<br/>
+			<lable>time: </lable>
+			<lable id="time_conf"></lable>
+			<br/>
+			<lable>monsters: </lable>
+			<lable id="monsters_conf"></lable>
+			<br/>
 		</div>
-		<div id="game" hidden >
-			<button class="button-19" onclick="f_ChangeSettings()">New Game</button>
-			<canvas id="canvas" height="715" width="715" style="border:1px solid #0363FB;"></canvas>
+
+		<div id="setting_button">
+			<p>
+				<button type="button" onclick="f_ChangeSettings()">back</button>
+				<button type="button" onclick="random_settings()">random again</button>
+				<button type="button" onclick="saveSettings()">start</button>		
+			</p>
+		</div> -->
+
+
+		<div>
+			<table align="center">
+				<tr>
+					<td>
+						<div id="life" hidden >
+							<img id="life1" src="images/life.png">
+							<img id="life2" src="images/life.png">
+							<img id="life3" src="images/life.png">
+							<img id="life4" src="images/life.png">
+							<img id="life5" src="images/life.png">	
+						</div>
+
+						<div id="score" hidden >
+							<label class="user-label" id="scorelabel" for="lblScore">SCORE:</label>
+							<input class="lbl" id="lblScore" type="text" />
+						</div>
+						
+						<div id="time" hidden >
+							<label class="user-label" id="timelabel" for="lblTime">TIME:</label>
+							<input class="lbl" id="lblTime" type="text" />
+						</div>
+						
+						<div id="userName" hidden >
+							<label class="user-label" for="lblUser">PLAYER:</label>
+							<input class="lbl" id="lblUser" type="text" />
+						</div>
+						
+						<div id="Confirmation_settings" hidden>
+							<span id="lbl_settings">
+								<lable>up: </lable>
+								<lable id="up_conf"></lable>
+								<br/>
+								<lable>down: </lable>
+								<lable id="down_conf"></lable>
+								<br/>
+								<lable>right: </lable>
+								<lable id="right_conf"></lable>
+								<br/>
+								<lable>left: </lable>
+								<lable id="left_conf"></lable>
+								<br/>
+								<lable>food: </lable>
+								<lable id="food_conf"></lable>
+								<br/>
+								<lable>5 points: </lable>
+								<lable id="points5_conf"> color</lable>
+								<br/>
+								<lable>15 points: </lable>
+								<lable id="points15_conf"> color</lable>
+								<br/>
+								<lable>25 points: </lable>
+								<lable id="points25_conf"> color</lable>
+								<br/>
+								<lable>time: </lable>
+								<lable id="time_conf"></lable>
+								<br/>
+								<lable>monsters: </lable>
+								<lable id="monsters_conf"></lable>
+								<br/>
+							</span>
+
+						</div>
+						
+				
+						<div id="setting_button" hidden>
+							<p>
+								<button type="button" onclick="f_ChangeSettings()">back</button>
+								<button type="button" onclick="random_settings()">random again</button>
+								<button type="button" onclick="saveSettings()">start</button>		
+							</p>
+						</div>
+						<div id="newGame_button" hidden>
+							<br/>
+							<button class="button-19" onclick="f_ChangeSettings()">New Game</button>
+						</div>
+					</td>
+					<td rowspan="2">
+						<div id="game" hidden>
+							<canvas id="canvas" height="715" width="715" style="border:1px solid #0363FB;"></canvas>
+						</div>
+					</td>
+				</tr>
+
+			</table>
+
 		</div>
 
 
@@ -263,3 +348,29 @@
 
 	</body>
 </html>
+
+
+<!-- <div id="score" hidden >
+	<label class="user-label" id="scorelabel" for="lblScore">SCORE:</label>
+	<input class="lbl" id="lblScore" type="text" />
+</div>
+
+
+<div id="time" hidden >
+	<label class="user-label" id="timelabel" for="lblTime">TIME:</label>
+	<input class="lbl" id="lblTime" type="text" />
+</div>
+
+<div id="userName" hidden >
+	<label class="user-label" for="lblUser">PLAYER:</label>
+	<input class="lbl" id="lblUser" type="text" />
+</div>
+
+<div id="life" hidden >
+<img id="life1" src="images/life.png">
+<img id="life2" src="images/life.png">
+<img id="life3" src="images/life.png">
+<img id="life4" src="images/life.png">
+<img id="life5" src="images/life.png">
+
+</div> -->

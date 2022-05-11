@@ -109,7 +109,7 @@ function confirmation(){
 
 	unShowAll();
 	$("#Confirmation_settings").show();
-
+	$("#setting_button").show();
 }
 
 function random_settings(){
@@ -162,6 +162,7 @@ function random_settings(){
 
 	unShowAll();
 	$("#Confirmation_settings").show();
+	$("#setting_button").show();
 }
 
 //60% 5 points, 30% 15 points, 10% 25 points
@@ -397,7 +398,7 @@ function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblUser.value=userTitle;
-	lblTime.value = g_time_settings - time_elapsed;
+	lblTime.value = (g_time_settings - time_elapsed).toFixed(2);
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -774,6 +775,9 @@ function unShowAll(){
 	$("#time").hide();
 	$("#ChangeSettings").hide();
 	$("#Confirmation_settings").hide();
+	$("#setting_button").hide();
+	$("#newGame_button").hide();
+	document.getElementById("Confirmation_settings").style.textAlign = "center";
 
 }
 
@@ -786,8 +790,11 @@ function f_Game(){
 	$("#userName").show();
 	$("#life").show();
 	$("#time").show();
+	$("#newGame_button").show();
 	audio.play();
 	window.location.href='#game';
+	document.getElementById("Confirmation_settings").style.textAlign = "left";
+	$("#Confirmation_settings").show();
 	Start();
 }
 

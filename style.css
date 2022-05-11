@@ -11,7 +11,7 @@ body{
     color: azure;
     text-align: center;
     font-size: 30px;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 #welcome{
@@ -233,7 +233,7 @@ h1{
   -webkit-user-select: none;
   vertical-align: middle;
   white-space: nowrap;
-  width: 25%;
+  width: 40%;
 }
 
 .button-19:after {
@@ -275,9 +275,9 @@ h1{
 }
 
 .lbl{
-  width: 10%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
+  width: 20%;
+  padding: 2px;
+  margin: 12px 0 20px 0;
   display: inline-block;
   border: none;
   background: #f1f1f1;
@@ -339,6 +339,18 @@ h1{
   box-shadow: 0 0 0 2px black;
 }
 
+#setting_button{
+  text-align: center;
+}
 
+#Confirmation_settings{
+  padding: 5px;
+  color: white;
+  text-align: center;
+  border:1px solid white;
+} 
 
+#lbl_settings{
+  font-size: x-large;
+}
 
