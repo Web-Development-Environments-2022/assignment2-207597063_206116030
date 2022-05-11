@@ -37,6 +37,7 @@ var lastPrased=4;
 var hasClock=false;
 var hasMed=false;
 var keysDown;
+var food_on_board = 0;
 
 //settings
 var g_key_up = 38;
@@ -90,7 +91,7 @@ function saveSettings(){
 	g_color25points = document.getElementById("color25_points").value;
 	g_time_settings = document.getElementById("time_settings").value;
 	g_monsters_settings = document.getElementById("monsters_amount_settings").value;
-
+	food_on_board = g_food_remain;
 	f_Game();
 }
 
@@ -102,6 +103,7 @@ function confirmation(){
 	var c_food = document.getElementById("amountFoodSettings").value;
 	var c_time = document.getElementById("time_settings").value;
 	var c_monster = document.getElementById("monsters_amount_settings").value;
+	food_on_board = g_food_remain;
 
 	if (c_up === "" || c_down === "" || c_right === "" || c_left === "" ||c_food === "" || c_time === "" || c_monster === ""){
 		alert("you missed details!")
@@ -253,6 +255,7 @@ function Start() {
 	resetLifes();
 	shape.i = 5;
 	shape.j = 0;
+	//board[5][0] = 2;
 	score = 0;
 	m1Shape.i=0;
 	m1Shape.j=0;
@@ -447,12 +450,33 @@ function GetKeyPressed() {
 	}
 }
 
+function samePosition10(){ //if monster (10 points) catch pacman
+	if((m1Shape.i == shape.i && m1Shape.j == shape.j) || (m3Shape.i == shape.i && m3Shape.j == shape.j) ||(m4Shape.i == shape.i && m4Shape.j == shape.j)){
+		return true;
+	}
+	else return false;
+}
+
+function samePosition25(){ //if monster (25 points) catch pacman
+	if(m2Shape.i == shape.i && m2Shape.j == shape.j){
+		return true;
+	}
+	else return false;
+}
+
+function existMonster(i,j){
+	if((m1Shape.i == i && m1Shape.j == j) || (m2Shape.i == i && m2Shape.j == j) || (m3Shape.i == i && m3Shape.j == j) ||(m4Shape.i == i && m4Shape.j == j)){
+		return true;
+	}
+	else return false;
+}
+
 function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblUser.value=userTitle;
 	lblTime.value = (g_time_settings - time_elapsed).toFixed(2);
-	if(((shape.i == m1Shape.i) && (shape.j==m1Shape.j)) || ((shape.i == m3Shape.i) && (shape.j==m3Shape.j)) || ((shape.i == m4Shape.i) && (shape.j==m4Shape.j))){
+	if(samePosition10()){
 		//if monster (10 points) catch pacman
 		score-=10;
 		numOfLifes-=1;
@@ -461,7 +485,7 @@ function Draw(x) {
 		drawAfterHit();
 		return;
 	}
-	if((shape.i == m2Shape.i) && (shape.j==m2Shape.j)){ 
+	if(samePosition25()){ 
 		//if monster (25 points) catch pacman
 		score-=25;
 		numOfLifes-=1;
@@ -470,6 +494,25 @@ function Draw(x) {
 		drawAfterHit();
 		return;
 	}
+	if(g_monsters_settings == 1){
+		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
+	}
+	else if(g_monsters_settings == 2){
+		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
+		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);	
+	}
+	else if(g_monsters_settings == 3){
+		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
+		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);
+		context.drawImage(monster1,m3Shape.i * 60 + 15,m3Shape.j * 60 + 15);
+	}
+	else{
+		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
+		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);
+		context.drawImage(monster1,m3Shape.i * 60 + 15,m3Shape.j * 60 + 15);
+		context.drawImage(monster1,m4Shape.i * 60 + 15,m4Shape.j * 60 + 15);
+	}
+
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
@@ -519,18 +562,20 @@ function Draw(x) {
 					context.fill();
 				}
 			} else if (board[i][j] == 1.5 || board[i][j] == 1.15 || board[i][j] == 1.25) { //food
-				context.beginPath();
-				context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
-				if(board[i][j] == 1.5){
-					context.fillStyle = g_color5points; //color
+				if(!existMonster(i,j)){
+					context.beginPath();
+					context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
+					if(board[i][j] == 1.5){
+						context.fillStyle = g_color5points; //color
+					}
+					else if(board[i][j] == 1.15){
+						context.fillStyle = g_color15points; //color
+					}
+					else{ 
+						context.fillStyle = g_color25points; //color
+					}
+					context.fill();
 				}
-				else if(board[i][j] == 1.15){
-					context.fillStyle = g_color15points; //color
-				}
-				else{
-					context.fillStyle = g_color25points; //color
-				}
-				context.fill();
 			} else if (board[i][j] == 4) { //wall
 				context.beginPath();
 				context.rect(center.x - 30, center.y - 30, 60, 60);
@@ -538,24 +583,24 @@ function Draw(x) {
 				context.fill();
 				console.log("draw walls on: "+i+" "+j);
 			}
-			else if (board[i][j] == 5) { //monster -life -10 score
-				context.drawImage(monster1,center.x-15,center.y-15);
-			}
-			else if (board[i][j] == 6) { // angel +50 score
-				context.drawImage(angel,center.x-15,center.y-15);
 
+			else if (board[i][j] == 6) { // angel +50 score
+				if(!existMonster(i,j)){
+					context.drawImage(angel,center.x-15,center.y-15);
+				}
 			}
 			else if (board[i][j] == 7) { //med +life
-				context.drawImage(med,center.x-15,center.y-15);
-
+				if(!existMonster(i,j)){
+					context.drawImage(med,center.x-15,center.y-15);
+				}
 			}
 			else if (board[i][j] == 8) { //clock + 20 sec
-				context.drawImage(clock,center.x-15,center.y-15);
+				if(!existMonster(i,j)){
+					context.drawImage(clock,center.x-15,center.y-15);
+				}
 
 			}
-			else if (board[i][j] == 9) { //monster -life -25 score
-				context.drawImage(monster2,center.x-15,center.y-15);
-			}
+
 		}
 	}
 
@@ -566,7 +611,7 @@ function UpdateMonster1Position(){
 	var gotHim=false;
 	var gotChoice=0;
 	var calc;
-	board[m1Shape.i][m1Shape.j]=0;
+	//board[m1Shape.i][m1Shape.j]=0;
 	if (m1Shape.j > 0 && board[m1Shape.i][m1Shape.j - 1] != 4) {
 		calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
@@ -641,7 +686,7 @@ function UpdateMonster1Position(){
 			m1Shape.i++;
 		}
 	}	
-	board[m1Shape.i][m1Shape.j]=5;
+	//board[m1Shape.i][m1Shape.j]=5;
 
 	
 }
@@ -652,7 +697,7 @@ function UpdateMonster2Position(){
 	var gotHim=false;
 	var gotChoice=0;
 	var calc;
-	board[m2Shape.i][m2Shape.j]=0;
+	//board[m2Shape.i][m2Shape.j]=0;
 	if (m2Shape.j > 0 && board[m2Shape.i][m2Shape.j - 1] != 4) {
 		calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
@@ -727,7 +772,7 @@ function UpdateMonster2Position(){
 			m2Shape.i++;
 		}
 	}	
-	board[m2Shape.i][m2Shape.j]=9;
+	//board[m2Shape.i][m2Shape.j]=9;
 
 }
 
@@ -737,7 +782,7 @@ function UpdateMonster3Position(){
 	var gotHim=false;
 	var gotChoice=0;
 	var calc;
-	board[m3Shape.i][m3Shape.j]=0;
+	//board[m3Shape.i][m3Shape.j]=0;
 	if (m3Shape.j > 0 && board[m3Shape.i][m3Shape.j - 1] != 4) {
 		calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
@@ -812,7 +857,7 @@ function UpdateMonster3Position(){
 			m3Shape.i++;
 		}
 	}	
-	board[m3Shape.i][m3Shape.j]=5;
+	//board[m3Shape.i][m3Shape.j]=5;
 
 }
 
@@ -822,7 +867,7 @@ function UpdateMonster4Position(){
 	var gotHim=false;
 	var gotChoice=0;
 	var calc;
-	board[m4Shape.i][m4Shape.j]=0;
+	//board[m4Shape.i][m4Shape.j]=0;
 	if (m4Shape.j > 0 && board[m4Shape.i][m4Shape.j - 1] != 4) {
 		calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j-1)-shape.j), 2));
 		if(calc<=maxSize){
@@ -897,7 +942,7 @@ function UpdateMonster4Position(){
 			m4Shape.i++;
 		}
 	}	
-	board[m4Shape.i][m4Shape.j]=5;
+	//board[m4Shape.i][m4Shape.j]=5;
 
 }
 
@@ -942,21 +987,24 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 1.5) { //food 5 points
 		score = score +5;
+		food_on_board--;
 	}
 	if (board[shape.i][shape.j] == 1.15) { //food 15 points
 		score = score +15;
+		food_on_board--;
 	}
 	if (board[shape.i][shape.j] == 1.25) { //food 25 points
 		score = score +25;
+		food_on_board--;
 	}
-	if(board[shape.i][shape.j] == 5){ //monster
+	if(samePosition10()){ //monster
 		score-=10;
 		numOfLifes-=1;
 		removeLife();	
 		hitA.play();
 		drawAfterHit();
 	}
-	if(board[shape.i][shape.j] == 9){ //monster
+	if(samePosition25()){ //monster
 		score-=25;
 		numOfLifes-=1;
 		removeLife();
@@ -1008,7 +1056,7 @@ function UpdatePosition() {
 			return;
 		}
 		else{
-			if (confirm("You are better then "+score+"points!\n Do you want to play again?")) {
+			if (confirm("You are better then "+score+" points!\n Do you want to play again?")) {
 				f_ChangeSettings();
 			  } else {
 				welcome();
@@ -1023,6 +1071,16 @@ function UpdatePosition() {
 		  } else {
 			welcome();
 		  }
+		return;
+	}
+	else if(food_on_board == 0){
+		clearAllInterval();
+		if (confirm("Winner!!! \nYou eat all the food!\nYou have "+score+" points!\n Do you want to play again?")) {
+			f_ChangeSettings();
+		}
+		else {
+			welcome();
+		}
 		return;
 	}
 	else {
@@ -1097,90 +1155,162 @@ function drawAfterHit(){
 	board[m1Shape.i][m1Shape.j]=0;
 	m1Shape.i=0;
 	m1Shape.j=0;
-	board[m1Shape.i][m1Shape.j]=5;
+	//board[m1Shape.i][m1Shape.j]=5;
 	if(g_monsters_settings == 1){
-		board[m1Shape.i][m1Shape.j]=0;
+		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		board[m1Shape.i][m1Shape.j]=5;
+		//board[m1Shape.i][m1Shape.j]=5;
 	}
 	if(g_monsters_settings == 2){
-		board[m1Shape.i][m1Shape.j]=0;
+		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		board[m1Shape.i][m1Shape.j]=5;
+		//board[m1Shape.i][m1Shape.j]=5;
 
-		board[m2Shape.i][m2Shape.j]=0;
+		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		board[m2Shape.i][m2Shape.j]=9;
+		//board[m2Shape.i][m2Shape.j]=9;
 	}
 	if(g_monsters_settings == 3){
-		board[m1Shape.i][m1Shape.j]=0;
+		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		board[m1Shape.i][m1Shape.j]=5;
+		//board[m1Shape.i][m1Shape.j]=5;
 
-		board[m2Shape.i][m2Shape.j]=0;
+		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		board[m2Shape.i][m2Shape.j]=9;
+		//board[m2Shape.i][m2Shape.j]=9;
 		
-		board[m3Shape.i][m3Shape.j]=0;
+		//board[m3Shape.i][m3Shape.j]=0;
 		m3Shape.i=11;
 		m3Shape.j=0;
-		board[m3Shape.i][m3Shape.j]=5;
+		//board[m3Shape.i][m3Shape.j]=5;
 	}
 	if(g_monsters_settings == 4){
-		board[m1Shape.i][m1Shape.j]=0;
+		//board[m1Shape.i][m1Shape.j]=0;
 		m1Shape.i=0;
 		m1Shape.j=0;
-		board[m1Shape.i][m1Shape.j]=5;
+		//board[m1Shape.i][m1Shape.j]=5;
 
-		board[m2Shape.i][m2Shape.j]=0;
+		//board[m2Shape.i][m2Shape.j]=0;
 		m2Shape.i=11;
 		m2Shape.j=11;
-		board[m2Shape.i][m2Shape.j]=9;
+		//board[m2Shape.i][m2Shape.j]=9;
 		
-		board[m3Shape.i][m3Shape.j]=0;
+		//board[m3Shape.i][m3Shape.j]=0;
 		m3Shape.i=11;
 		m3Shape.j=0;
-		board[m3Shape.i][m3Shape.j]=5;
+		//board[m3Shape.i][m3Shape.j]=5;
 
-		board[m4Shape.i][m4Shape.j]=0;
+		//board[m4Shape.i][m4Shape.j]=0;
 		m4Shape.i=0;
 		m4Shape.j=11;
-		board[m4Shape.i][m4Shape.j]=5;
+		//board[m4Shape.i][m4Shape.j]=5;
 	}
 
 	//pacman in random position
 	var x=Math.floor(Math.random() * 6 + 1);
 	if(x==1){
+		if (board[5][2] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[5][2] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[5][2] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[5][2]=2;
 		shape.i=5;
 		shape.j=2;
 	}
 	else if(x==2){
+		if (board[6][3] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[6][3] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[6][3] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[6][3]=2;
 		shape.i=6;
 		shape.j=3;
 	}
 	else if(x==3){
+		if (board[9][5] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[9][5] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[9][5] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[9][5]=2;
 		shape.i=9;
 		shape.j=5;
 	}
 	else if(x==4){
+		if (board[8][9] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[8][9] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[8][9] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[8][9]=2;
 		shape.i=8;
 		shape.j=9;
 	}
 	else if(x==5){
+		if (board[4][6] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[4][6] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[4][6] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[4][6]=2;
 		shape.i=4;
 		shape.j=6;
 	}
 	else{
+		if (board[0][3] == 1.5) { //food 5 points
+			score = score +5;
+			food_on_board--;
+		}
+		if (board[0][3] == 1.15) { //food 15 points
+			score = score +15;
+			food_on_board--;
+		}
+		if (board[0][3] == 1.25) { //food 25 points
+			score = score +25;
+			food_on_board--;
+		}
 		board[0][3]=2;
 		shape.i=0;
 		shape.j=3;
