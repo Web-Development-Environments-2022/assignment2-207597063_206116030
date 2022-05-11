@@ -3,9 +3,17 @@ var context;
 //shapes for moving objects
 var shape = new Object();
 var m1Shape=new Object();
+m1Shape.i=0;
+m1Shape.j=0;
 var m2Shape=new Object();
+m2Shape.i=11;
+m2Shape.j=11;
 var m3Shape=new Object();
+m3Shape.i=11;
+m3Shape.j=0;
 var m4Shape=new Object();
+m4Shape.i=0;
+m4Shape.j=11;
 var angShape=new Object();
 
 var board;
@@ -248,10 +256,8 @@ function Start() {
 	calc_food();
 	start_time = new Date();
 	for (var i = 0; i < 12; i++) {
-		console.log(i);
 		board[i] = new Array();
 		for (var j = 0; j < 12; j++) {
-			console.log(j);
 			if (
 				(i == 1 && j == 0) ||
 				(i == 7 && j == 0) ||
@@ -303,22 +309,23 @@ function Start() {
 				(i == 8 && j == 11) 
 			) {
 				board[i][j] = 4;
+				console.log("set 4");
+			}
+			//monster 1
+			else if(m1Shape.i==i && m1Shape.j==j){
+				board[m1Shape.i][m1Shape.j] = 5;  //monster -life -10 score
+			
+			}
+			else if(m2Shape.i==i && m2Shape.j==j && g_monsters_settings >= 2){ //monster 2
+				board[m2Shape.i][m2Shape.j]=9;  //monster -life -25 score
 			}
 
-			else if(i == 0 && j == 0){ //monster 1
-				board[i][j] = 5;  //monster -life -10 score
+			else if(m3Shape.i==i && m3Shape.j==j && g_monsters_settings >=3){ //monster 3
+				board[m3Shape.i][m3Shape.j] = 5;  //monster -life -10 score
 			}
 
-			else if((i == 11 && j == 11) && (g_monsters_settings >= 2)){ //monster 2
-				board[i][j]=9;  //monster -life -25 score
-			}
-
-			else if((i == 11 && j == 0) && (g_monsters_settings >=3)){ //monster 3
-				board[i][j] = 5;  //monster -life -10 score
-			}
-
-			else if((i == 0 && j == 11) && (g_monsters_settings == 4)){ //monster 4
-				board[i][j] = 5; //monster -life -10 score
+			else if(m4Shape.i==i && m4Shape.j==j && g_monsters_settings == 4){ //monster 4
+				board[m4Shape.i][m4Shape.j] = 5; //monster -life -10 score
 			}
 
 			else if((i==6 && j==6)){
@@ -366,6 +373,25 @@ function Start() {
 		false
 	);
 	interval = setInterval(UpdatePosition, 100);
+	if(g_monsters_settings==1){
+		interval2=setInterval(UpdateMonster1Position, 500);
+	}
+	else if(g_monsters_settings==2){
+		interval2=setInterval(UpdateMonster1Position, 500);
+		interval3=setInterval(UpdateMonster2Position, 500);
+	}
+	else if(g_monsters_settings==3){
+		interval2=setInterval(UpdateMonster1Position, 500);
+		interval3=setInterval(UpdateMonster2Position, 500);
+		interval4=setInterval(UpdateMonster3Position, 500);
+	}
+	else if(g_monsters_settings==4){
+		interval2=setInterval(UpdateMonster1Position, 500);
+		interval3=setInterval(UpdateMonster2Position, 500);
+		interval4=setInterval(UpdateMonster3Position, 500);
+		interval5=setInterval(UpdateMonster4Position, 500);
+
+	}
 
 }
 
@@ -465,6 +491,7 @@ function Draw(x) {
 				context.rect(center.x - 30, center.y - 30, 60, 60);
 				context.fillStyle = "blue"; //color
 				context.fill();
+				console.log("draw walls on: "+i+" "+j);
 			}
 			else if (board[i][j] == 5) { //monster -life -10 score
 				context.drawImage(monster1,center.x-15,center.y-15);
@@ -488,9 +515,343 @@ function Draw(x) {
 	}
 
 }
+function UpdateMonster1Position(){
+	var maxSize=17;
+	var choice=0;
+	var gotHim=false;
+	var gotChoice=0;
+	board[m1Shape.i][m1Shape.j]=0;
+	if (m1Shape.j > 0 && board[m1Shape.i][m1Shape.j - 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j-1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=1;
+		}
+		if(shape.i==m1Shape.i && shape.j==(m1Shape.j-1)){
+			gotHim=true;
+			gotChoice=1;
+		}
+		
+	}
+	if (m1Shape.j < 11 && board[m1Shape.i][m1Shape.j + 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m1Shape.i-shape.i), 2) + Math.pow(((m1Shape.j+1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=2;
+		}
+		if(shape.i==m1Shape.i && shape.j==(m1Shape.j+1)){
+			gotHim=true;
+			gotChoice=2;
+		}		
+	}
+	if (m1Shape.i > 0 && board[m1Shape.i - 1][m1Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m1Shape.i-1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=3;
+		}
+		if(shape.i==(m1Shape.i-1) && shape.j==m1Shape.j){
+			gotHim=true;
+			gotChoice=3;
+		}
+	}
 
+	if (m1Shape.i < 11 && board[m1Shape.i + 1][m1Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m1Shape.i+1)-shape.i), 2) + Math.pow((m1Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=4;
+		}
+		if(shape.i==(m1Shape.i+1) && shape.j==m1Shape.j){
+			gotHim=true;
+			gotChoice=4;
+		}
+	}
+	if(gotHim){
+		if(gotChoice==1){
+			m1Shape.j--;
+		}
+		else if(gotChoice==2){
+			m1Shape.j++;
+		}
+		else if(gotChoice==3){
+			m1Shape.i--;
+		}
+		else if(gotChoice==4){
+			m1Shape.i++;
+		}
+	}
+	else{
+		if(choice==1){
+			m1Shape.j--;
+		}
+		else if(choice==2){
+			m1Shape.j++;
+		}
+		else if(choice==3){
+			m1Shape.i--;
+		}
+		else if(choice==4){
+			m1Shape.i++;
+		}
+	}	
+	board[m1Shape.i][m1Shape.j]=5;
+
+	
+}
+
+function UpdateMonster2Position(){
+	var maxSize=17;
+	var choice=0;
+	var gotHim=false;
+	var gotChoice=0;
+	board[m2Shape.i][m2Shape.j]=0;
+	if (m2Shape.j > 0 && board[m2Shape.i][m2Shape.j - 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j-1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=1;
+		}
+		if(shape.i==m2Shape.i && shape.j==(m2Shape.j-1)){
+			gotHim=true;
+			gotChoice=1;
+		}
+		
+	}
+	if (m2Shape.j < 11 && board[m2Shape.i][m2Shape.j + 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m2Shape.i-shape.i), 2) + Math.pow(((m2Shape.j+1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=2;
+		}
+		if(shape.i==m2Shape.i && shape.j==(m2Shape.j+1)){
+			gotHim=true;
+			gotChoice=2;
+		}		
+	}
+	if (m2Shape.i > 0 && board[m2Shape.i - 1][m2Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m2Shape.i-1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=3;
+		}
+		if(shape.i==(m2Shape.i-1) && shape.j==m2Shape.j){
+			gotHim=true;
+			gotChoice=3;
+		}
+	}
+
+	if (m2Shape.i < 11 && board[m2Shape.i + 1][m2Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m2Shape.i+1)-shape.i), 2) + Math.pow((m2Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=4;
+		}
+		if(shape.i==(m2Shape.i+1) && shape.j==m2Shape.j){
+			gotHim=true;
+			gotChoice=4;
+		}
+	}
+	if(gotHim){
+		if(gotChoice==1){
+			m2Shape.j--;
+		}
+		else if(gotChoice==2){
+			m2Shape.j++;
+		}
+		else if(gotChoice==3){
+			m2Shape.i--;
+		}
+		else if(gotChoice==4){
+			m2Shape.i++;
+		}
+	}
+	else{
+		if(choice==1){
+			m2Shape.j--;
+		}
+		else if(choice==2){
+			m2Shape.j++;
+		}
+		else if(choice==3){
+			m2Shape.i--;
+		}
+		else if(choice==4){
+			m2Shape.i++;
+		}
+	}	
+	board[m2Shape.i][m2Shape.j]=9;
+
+}
+
+function UpdateMonster3Position(){
+	var maxSize=17;
+	var choice=0;
+	var gotHim=false;
+	var gotChoice=0;
+	board[m3Shape.i][m3Shape.j]=0;
+	if (m3Shape.j > 0 && board[m3Shape.i][m3Shape.j - 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j-1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=1;
+		}
+		if(shape.i==m3Shape.i && shape.j==(m3Shape.j-1)){
+			gotHim=true;
+			gotChoice=1;
+		}
+		
+	}
+	if (m3Shape.j < 11 && board[m3Shape.i][m3Shape.j + 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m3Shape.i-shape.i), 2) + Math.pow(((m3Shape.j+1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=2;
+		}
+		if(shape.i==m3Shape.i && shape.j==(m3Shape.j+1)){
+			gotHim=true;
+			gotChoice=2;
+		}		
+	}
+	if (m3Shape.i > 0 && board[m3Shape.i - 1][m3Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m3Shape.i-1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=3;
+		}
+		if(shape.i==(m3Shape.i-1) && shape.j==m3Shape.j){
+			gotHim=true;
+			gotChoice=3;
+		}
+	}
+
+	if (m3Shape.i < 11 && board[m3Shape.i + 1][m3Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m3Shape.i+1)-shape.i), 2) + Math.pow((m3Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=4;
+		}
+		if(shape.i==(m3Shape.i+1) && shape.j==m3Shape.j){
+			gotHim=true;
+			gotChoice=4;
+		}
+	}
+	if(gotHim){
+		if(gotChoice==1){
+			m3Shape.j--;
+		}
+		else if(gotChoice==2){
+			m3Shape.j++;
+		}
+		else if(gotChoice==3){
+			m3Shape.i--;
+		}
+		else if(gotChoice==4){
+			m3Shape.i++;
+		}
+	}
+	else{
+		if(choice==1){
+			m3Shape.j--;
+		}
+		else if(choice==2){
+			m3Shape.j++;
+		}
+		else if(choice==3){
+			m3Shape.i--;
+		}
+		else if(choice==4){
+			m3Shape.i++;
+		}
+	}	
+	board[m3Shape.i][m3Shape.j]=5;
+
+}
+
+function UpdateMonster4Position(){
+	var maxSize=17;
+	var choice=0;
+	var gotHim=false;
+	var gotChoice=0;
+	board[m4Shape.i][m4Shape.j]=0;
+	if (m4Shape.j > 0 && board[m4Shape.i][m4Shape.j - 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j-1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=1;
+		}
+		if(shape.i==m4Shape.i && shape.j==(m4Shape.j-1)){
+			gotHim=true;
+			gotChoice=1;
+		}
+		
+	}
+	if (m4Shape.j < 11 && board[m4Shape.i][m4Shape.j + 1] != 4) {
+		var calc=Math.sqrt( Math.pow((m4Shape.i-shape.i), 2) + Math.pow(((m4Shape.j+1)-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=2;
+		}
+		if(shape.i==m4Shape.i && shape.j==(m4Shape.j+1)){
+			gotHim=true;
+			gotChoice=2;
+		}		
+	}
+	if (m4Shape.i > 0 && board[m4Shape.i - 1][m4Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m4Shape.i-1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=3;
+		}
+		if(shape.i==(m4Shape.i-1) && shape.j==m4Shape.j){
+			gotHim=true;
+			gotChoice=3;
+		}
+	}
+
+	if (m4Shape.i < 11 && board[m4Shape.i + 1][m4Shape.j] != 4) {
+		var calc=Math.sqrt( Math.pow(((m4Shape.i+1)-shape.i), 2) + Math.pow((m4Shape.j-shape.j), 2));
+		if(calc<=maxSize){
+			maxSize=calc;
+			choice=4;
+		}
+		if(shape.i==(m4Shape.i+1) && shape.j==m4Shape.j){
+			gotHim=true;
+			gotChoice=4;
+		}
+	}
+	if(gotHim){
+		if(gotChoice==1){
+			m4Shape.j--;
+		}
+		else if(gotChoice==2){
+			m4Shape.j++;
+		}
+		else if(gotChoice==3){
+			m4Shape.i--;
+		}
+		else if(gotChoice==4){
+			m4Shape.i++;
+		}
+	}
+	else{
+		if(choice==1){
+			m4Shape.j--;
+		}
+		else if(choice==2){
+			m4Shape.j++;
+		}
+		else if(choice==3){
+			m4Shape.i--;
+		}
+		else if(choice==4){
+			m4Shape.i++;
+		}
+	}	
+	board[m4Shape.i][m4Shape.j]=5;
+
+}
 function UpdatePosition() {
-
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) { //up
@@ -558,7 +919,6 @@ function UpdatePosition() {
 
 	if(board[shape.i][shape.j] == 8){ //clock
 		g_time_settings+=(20/1000);
-		console.log("touched clock");
 		hasClock=false;
 	}
 	board[shape.i][shape.j] = 2;
@@ -632,48 +992,94 @@ else{
 
 function drawClock(){
 	//clock in random position
-	console.log("draw clock");
 	hasClock=true;
-	board[0][1]=8;
-	// var x=Math.floor(Math.random() * 6 + 1);
-	// if(x==1){
-	// 	board[4][5]=8;
+	var x=Math.floor(Math.random() * 6 + 1);
+	if(x==1){
+		board[4][5]=8;
 
-	// }
-	// else if(x==2){
-	// 	board[10][7]=8;
+	}
+	else if(x==2){
+		board[10][7]=8;
 
-	// }
-	// else if(x==3){
-	// 	board[0][9]=8;
+	}
+	else if(x==3){
+		board[0][9]=8;
 
-	// }
-	// else if(x==4){
-	// 	board[2][3]=8;
+	}
+	else if(x==4){
+		board[2][3]=8;
 
-	// }
-	// else if(x==5){
-	// 	board[2][9]=8;
+	}
+	else if(x==5){
+		board[2][9]=8;
 
-	// }
-	// else{
-	// 	board[8][7]=8;
+	}
+	else{
+		board[8][7]=8;
 
-	// }
+	}
 
 }
 
 function drawAfterHit(){
 	//monsters in the corners
-	board[0][0]=5;
-	if(g_monsters_settings >= 2){
-		board[11][11]=9;
+	board[m1Shape.i][m1Shape.j]=0;
+	m1Shape.i=0;
+	m1Shape.j=0;
+	board[m1Shape.i][m1Shape.j]=5;
+	if(g_monsters_settings == 1){
+		board[m1Shape.i][m1Shape.j]=0;
+		m1Shape.i=0;
+		m1Shape.j=0;
+		board[m1Shape.i][m1Shape.j]=5;
 	}
-	if(g_monsters_settings >= 3){
-		board[11][0]=5;
+	if(g_monsters_settings == 2){
+		board[m1Shape.i][m1Shape.j]=0;
+		m1Shape.i=0;
+		m1Shape.j=0;
+		board[m1Shape.i][m1Shape.j]=5;
+
+		board[m2Shape.i][m2Shape.j]=0;
+		m2Shape.i=11;
+		m2Shape.j=11;
+		board[m2Shape.i][m2Shape.j]=9;
 	}
-	if(g_monsters_settings >= 4){
-		board[0][11]=5;
+	if(g_monsters_settings == 3){
+		board[m1Shape.i][m1Shape.j]=0;
+		m1Shape.i=0;
+		m1Shape.j=0;
+		board[m1Shape.i][m1Shape.j]=5;
+
+		board[m2Shape.i][m2Shape.j]=0;
+		m2Shape.i=11;
+		m2Shape.j=11;
+		board[m2Shape.i][m2Shape.j]=9;
+		
+		board[m3Shape.i][m3Shape.j]=0;
+		m3Shape.i=11;
+		m3Shape.j=0;
+		board[m3Shape.i][m3Shape.j]=5;
+	}
+	if(g_monsters_settings == 4){
+		board[m1Shape.i][m1Shape.j]=0;
+		m1Shape.i=0;
+		m1Shape.j=0;
+		board[m1Shape.i][m1Shape.j]=5;
+
+		board[m2Shape.i][m2Shape.j]=0;
+		m2Shape.i=11;
+		m2Shape.j=11;
+		board[m2Shape.i][m2Shape.j]=9;
+		
+		board[m3Shape.i][m3Shape.j]=0;
+		m3Shape.i=11;
+		m3Shape.j=0;
+		board[m3Shape.i][m3Shape.j]=5;
+
+		board[m4Shape.i][m4Shape.j]=0;
+		m4Shape.i=0;
+		m4Shape.j=11;
+		board[m4Shape.i][m4Shape.j]=5;
 	}
 
 	//pacman in random position
