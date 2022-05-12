@@ -1,3 +1,4 @@
+
 body{
     background-color:black;
 }
@@ -102,6 +103,8 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 
 #game-table{
   margin: auto;
+  overflow: clip;
+
 }
 .user-label{
     color:aliceblue

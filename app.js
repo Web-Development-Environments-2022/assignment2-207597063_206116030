@@ -73,7 +73,14 @@ med.src='images/pill.png';
 angel.src='images/angel.png';
 clock.src='images/clock.png';
 
-
+var arrow_keys_handler = function(e) {
+    switch(e.code){
+        case "ArrowUp": case "ArrowDown": case "ArrowLeft": case "ArrowRight": 
+            case "Space": e.preventDefault(); break;
+        default: break; // do not block other keys
+    }
+};
+window.addEventListener("keydown", arrow_keys_handler, false);
 
 //default user
 localStorage.setItem("k",JSON.stringify({
@@ -366,7 +373,6 @@ function Start() {
 				(i == 8 && j == 11) 
 			) {
 				board[i][j] = 4;
-				console.log("set 4");
 			}
 			//monster 1
 			else if(m1Shape.i==i && m1Shape.j==j){
@@ -400,7 +406,7 @@ function Start() {
 					shape.i = i;
 					shape.j = j;
 					pacman_remain--;
-					board[i][j] = 2;
+					//board[i][j] = 2;
 				} else {
 					board[i][j] = 0;
 				}
@@ -408,6 +414,7 @@ function Start() {
 			}
 		}
 	}
+	drawAfterHit();
 	while (g_food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		randomType = Math.floor(Math.random() * (3 - 1 + 1) ) + 1;
@@ -1283,9 +1290,9 @@ function drawAfterHit(){
 		else if (board[8][9] == 1.25) { //food 25 points
 			score = score +25;
 		}
-		board[8][9]=2;
-		shape.i=8;
-		shape.j=9;
+		board[6][5]=2;
+		shape.i=6;
+		shape.j=5;
 	}
 	else if(x==5){
 		if (board[4][6] == 1.5) { //food 5 points
@@ -1311,8 +1318,8 @@ function drawAfterHit(){
 		else if (board[0][3] == 1.25) { //food 25 points
 			score = score +25;
 		}
-		board[0][3]=2;
-		shape.i=0;
+		board[1][3]=2;
+		shape.i=1;
 		shape.j=3;
 	}
 
@@ -1370,6 +1377,7 @@ function unShowAll(){
 		audio.pause();
 		audio.currentTime =0;
 	}
+	clearAllInterval();
 	document.getElementById("userLogin").value = "";
 	document.getElementById("pswLogin").value = "";	
 	document.getElementById("username").value = "";	
