@@ -11,19 +11,28 @@
 
 		<div id="header">
 			<img id="header-img3" src="images/pacLogo2.jpg" />
+			<br>
 			<strong id="writers">Yuval felendler & Amit partuk</strong>
 		</div>
 
 
+		<nav>
+			<a href="#welcome" onclick="welcome()"><b>Welcome</b></a>
+			<a href="#Register" onclick="showRegister()"><b>Register</b></a>
+			<a href="#Login" onclick="showLogin()"><b>Login</b></a>
+			<a href="#about" onclick="showAbout()"><b>About</b></a>
+			<a href="#footer"><b>Contact</b></a>
+			<div class="animation start-home"></div>
+		</nav>
 
-		<div id="menu" >
+		<!-- <div id="menu" >
 			<ul>
 				<li><a href="#welcome" onclick="welcome()"><b>Welcome</b></a></li>
 				<li><a href="#Register" onclick="showRegister()"><b>Register</b></a></li>
 				<li><a href="#Login" onclick="showLogin()"><b>Login</b></a></li>
 				<li><a href="#about" onclick="showAbout()"><b>About</b></a></li>
 			</ul>
-		</div>
+		</div> -->
 
 
 
@@ -34,6 +43,53 @@
 
 		</div>
 
+
+		<div id="Register">
+			<div class="Rtitle">Sign up</div>
+			<div class="Rsubtitle">Let's create your account!</div>
+
+			<div class="Rinput-container Ric1">
+			  <input id="username" class="Rinput" type="text" placeholder=" " />
+			  <div class="Rcut"></div>
+			  <label for="username" class="Rplaceholder">User name</label>
+			</div>
+
+
+			<div class="Rinput-container Ric2">
+			  <input id="password" class="Rinput" type="password" placeholder=" " autocomplete="off" />
+			  <div class="Rcut"></div>
+			  <label for="password" class="Rplaceholder">Password</label>
+			</div>
+
+
+			<div class="Rinput-container Ric2">
+			  <input id="fullname" class="Rinput" type="text" placeholder=" " />
+			  <div class="Rcut Rcut-short"></div>
+			  <label for="fullname" class="Rplaceholder">Full name</label>
+			</div>
+
+
+			<div class="Rinput-container Ric2">
+				<input id="mail" class="Rinput" type="text" placeholder=" " />
+				<div class="Rcut Rcut-short"></div>
+				<label for="mail" class="Rplaceholder">Email</label>
+			</div>
+
+
+			<div class="Rinput-container Ric2">
+				<input id="date" class="Rinput" type="date" placeholder=" " />
+				<div class="Rcut Rcut-short"></div>
+				<label for="Rdate" class="Rplaceholder">Date of birth</label>
+			</div>
+
+
+			<button type="text" class="Rsubmit" onclick="registerComplete()">submit</button>
+
+		  </div>
+
+
+
+<!-- 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
 		<div id="Register" class="container" hidden >
 			<h1>Sign up for free</h1>
@@ -64,13 +120,12 @@
 			</p>
 		</div>
 		
-		</form>
+		</form> -->
 
 
 		<div id="alredySignin" class="AlredySignin"  hidden>
 			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
 		</div>
-		</form>
 
 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
@@ -135,48 +190,108 @@
 			
 		</form>
 
+		<div id="Login" >
+			<div class="Ltitle">Login</div>
+			<div class="Lsubtitle">Welcome back!</div>
+			<div class="Linput-container Lic1">
+			  <input id="userLogin" class="Linput" type="text" placeholder=" " />
+			  <div class="Lcut"></div>
+			  <label for="userLogin" class="Lplaceholder">User name</label>
+			</div>
+			<br>
+			<br>
 
-		<form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
+			<div class="Linput-container Lic2">
+			  <input id="pswLogin" class="Linput" type="password" placeholder=" " />
+			  <div class="Lcut"></div>
+			  <label for="pswLogin" class="Lplaceholder">Password</label>
+			</div>
+
+			<button type="text" class="Lsubmit" onclick="login()">Enter</button>
+		  </div>
+
+		<div id="Unregistered" class="Unregistered" hidden >
+			<p>Does not have an account? <a href="#Register" onclick="showRegister()">Register now</a></p>
+		</div>
+
+
+
+		<!-- <form style=" width: 50%; padding-left: 25%; padding-top: 10px; ">
 		<div id="Login" class="container" hidden >
-			<h1>
-				welcome back!
-			</h1>
-			<hr>
+			<h1>welcome back!</h1>
+			
 			<label for="user"><b>User name</b></label>
+			
 			<br/>
-    		<input class="user_inputs" type="text" placeholder="Enter User name" name="user" id="userLogin" required>
+    		
+			<input class="user_inputs" type="text" placeholder="Enter User name" name="user" id="userLogin" required>
+			
 			<br/>
 
 			<label for="psw"><b>Password</b></label>
+			
 			<br/>
+			
 			<input class="user_inputs" type="password" placeholder="Enter Password" name="psw" id="pswLogin" autocomplete="off" required>
+			
 			<br/>
 
 
 			<button type="button" id="loginbtn" onclick="login()">Login</button>
 
-		</div>
+		</div> -->
 
-
-
-		<div id="Unregistered" class="Unregistered" hidden >
-			<p>Not yet registered? <a href="#Register" onclick="showRegister()">Register</a>.</p>
-		</div>
-		</form>
+		<!-- there was a unregistere div here and i moved him up -->
+		<!-- </form> -->
 
 
 		<div id="about" class="modal">
 			<div class="modal-content">
 			  <span class="close" onclick="closeModel()">&times;</span>
-			  <p>This is our about window</p>
+			  <div class="about-section">
+				<h1 id="about-header">About Us</h1>
+				<p class="about-p">IN this work, we build pacman game using HTML,CSS,JS.</p> 
+				<p class="about-p">During the work we user JQurey for almost the entire code spicialelly when we neede an intercation with the index.html and the style.css files to get the elemnts and change them</p>
+				<p class="about-p">We used templates for the Menu bar, the buttons and the about window. we changed them a bit but the style is reused.</p>
+				<p class="about-p">During the work, we had some difficulties regarding the game logic- spically to move the monsters and create the random game.</p>
+				</div>
+			  
+			  <h2 style="text-align:center">Our Team</h2>
+			  <div class="row">
+				<div class="column">
+				  <div class="card">
+					<img class="id-img" src="images/Yuval.jpeg" alt="Yuval" style="width:100%">
+					<div class="container1">
+					  <h2>Yuval Felendler</h2>
+					  <p class="title">RT Software engineer at Elbit</p>
+					  <p>3rd year B.Sc at information systems and software engineering in BGU  </p>
+					  <p>Yuvalf301@gmail.com</p>
+					  <p><button class="button1">Contact</button></p>
+					</div>
+				  </div>
+				</div>
+			  
+				<div class="column">
+				  <div class="card">
+					<img class="id-img" src="images/Amit.jpeg" alt="Amit" style="width:100%">
+					<div class="container1">
+					  <h2>Amit Partuk</h2>
+					  <p class="title">Software engineer at Elbit</p>
+					  <p>3rd year B.Sc at information systems and software engineering in BGU </p>
+					  <p>Amit@gmail.com</p>
+					  <p><button class="button1">Contact</button></p>
+					</div>
+				  </div>
+				</div>
 			</div>
 		  </div>
+		</div>
 
 			
 
 
 		<div>
-			<table align="center">
+			<table >
 				<tr>
 					<td>
 						<div id="life" hidden >
@@ -264,7 +379,10 @@
 
 
 		<div id="footer">
-			<h2 class="footer-head">The website was created by Yuval&Amit</h2>
+			<h2 id="footer-header">Thank you for playing pacMan 2.0</h2>
+			<p id="footer-by">
+				By <span id="footer-span">Amit&Yuval</span>
+			</p>
 			<a id="btn-footer" class="btn" href="mailto:yuvalf301@gmail.com">CONTACT US</a>
 			<br>
 			<br>

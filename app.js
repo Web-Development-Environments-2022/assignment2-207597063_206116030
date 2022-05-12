@@ -276,7 +276,6 @@ function Start() {
 	wasClock=false;
 	pac_color = "yellow";
 	var cnt = 144;
-	//var food_remain = 80;
 	var pacman_remain = 1;
 	var randomType;
 	calc_food();
