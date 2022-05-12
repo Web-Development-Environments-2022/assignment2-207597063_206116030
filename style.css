@@ -639,6 +639,15 @@ h1{
   width: 30%;
 }
 
+#ChangeSettings {
+  margin: auto;
+  background-color: #15172b;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 30%;
+}
+
 .Rtitle {
   color: #eee;
   font-family: sans-serif;

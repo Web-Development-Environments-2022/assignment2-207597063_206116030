@@ -78,6 +78,10 @@
 		  </div>
 
 
+		  <div id="alredySignin" class="AlredySignin"  hidden>
+			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
+		</div>
+
 
 <!-- 
 		<form style=" width: 50%; padding-left: 25%; padding-top: 10px;">
@@ -113,12 +117,69 @@
 		</form> -->
 
 
-		<div id="alredySignin" class="AlredySignin"  hidden>
-			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
-		</div>
 
+		<div id="ChangeSettings">
+			<div class="Rtitle">Change Settings</div>
+			<div class="Rsubtitle">Let's create your account!</div>
 
-		<form class="sform">
+			<div class="Rinput-container Ric1">
+			  <input  class="Rinput" type="text" id="up" placeholder="" name="up" maxlength="1" autocomplete="off" required />
+			  <div class="Rcut"></div>
+			  <label for="up" class="Rplaceholder">ArrowUp</label>
+			</div>
+			<div class="Rinput-container Ric2">
+			  <input class="Rinput" type="text" id="down" placeholder="" name="down" maxlength="1" autocomplete="off" required/>
+			  <div class="Rcut"></div>
+			  <label for="down" class="Rplaceholder">ArrowDown</label>
+			</div>
+			<div class="Rinput-container Ric2">
+			  <input class="Rinput" type="text" id="right" placeholder="" name="right" maxlength="1" autocomplete="off" required />
+			  <div class="Rcut Rcut-short"></div>
+			  <label for="right" class="Rplaceholder">ArrowRight</label>
+			</div>
+			<div class="Rinput-container Ric2">
+				<input class="Rinput"type="text" id="left" placeholder="" name="left" maxlength="1" autocomplete="off" required />
+				<div class="Rcut Rcut-short"></div>
+				<label for="left" class="Rplaceholder">ArrowLeft</label>
+			</div>
+			<div class="Rinput-container Ric2">
+				<input class="Rinput" type="number" id="amountFoodSettings" placeholder="" name="amountFoodSettings" maxlength="2" autocomplete="off" min="50" max="90" required/>
+				<div class="Rcut Rcut-short"></div>
+				<label for="amountFoodSettings" class="Rplaceholder">Amount of food</label>
+			</div>
+			<div class="Rsubtitle">Food Colors</div>
+			<div class="Rinput-container Ric1">
+				<input  class="Rinput" type="color" id="color5_points" name="color5_points" autocomplete="off" />
+				<div class="Rcut"></div>
+				<label for="color5_points" class="Rplaceholder">5 points</label>
+			  </div>
+			  <div class="Rinput-container Ric2">
+				<input class="Rinput" type="color" id="color15_points" name="color15_points" autocomplete="off"/>
+				<div class="Rcut"></div>
+				<label for="color15_points" class="Rplaceholder">15 points</label>
+			  </div>
+			  <div class="Rinput-container Ric2">
+				<input class="Rinput" type="color" id="color25_points" name="color25_points" autocomplete="off" />
+				<div class="Rcut Rcut-short"></div>
+				<label for="color25_points" class="Rplaceholder">25 points</label>
+			  </div>
+			  <div class="Rinput-container Ric2">
+				  <input class="Rinput" type="number" id="time_settings" placeholder="" name="time_settings" autocomplete="off" min="60" required/>
+				  <div class="Rcut Rcut-short"></div>
+				  <label for="time_settings" class="Rplaceholder">Time(sec)</label>
+			  </div>
+			  <div class="Rinput-container Ric2">
+				  <input class="Rinput" type="number" id="monsters_amount_settings" placeholder="" name="monsters_amount_settings" autocomplete="off" min="1" max="4" required/>
+				  <div class="Rcut Rcut-short"></div>
+				  <label for="monsters_amount_settings" class="Rplaceholder">Amount of Monsters</label>
+			  </div>
+
+			<button type="text" class="Rsubmit" onclick="random_settings()">Random</button>
+			<button type="text" class="Rsubmit" onclick="confirmation()">Continue</button>
+
+		  </div>
+
+		<!-- <form class="sform">
 			<div id="ChangeSettings" class="settings" hidden >
 				<h1>Change Settings</h1>
 	
@@ -145,7 +206,7 @@
 
 				</p>
 
-					<p>Colors:</p>
+				<p>Colors:</p>
 					<p>
 						<strong>5 points</strong>
 						<input type="color" id="color5_points" name="color5_points" autocomplete="off" >
@@ -178,7 +239,7 @@
 				</p>
 			</div>
 			
-		</form>
+		</form> -->
 
 		<div id="Login" >
 			<div class="Ltitle">Login</div>
