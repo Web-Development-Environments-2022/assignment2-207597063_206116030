@@ -100,12 +100,18 @@ nav .start-contact, a:nth-child(5):hover~.animation {
   color: white;
 }
 
-
+#game-table{
+  margin: auto;
+}
 .user-label{
     color:aliceblue
 }
 
-
+.sform{
+  width: 50%; 
+  padding-left: 25%; 
+  padding-top: 10px;
+}
 
 #loginbtn{
   height: 40px; 

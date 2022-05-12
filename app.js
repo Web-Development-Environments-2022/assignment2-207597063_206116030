@@ -1127,7 +1127,7 @@ function UpdatePosition() {
 	}
 
 
-	if(g_time_settings-time_elapsed<200){
+	if(g_time_settings-time_elapsed<40){
 		if(!hasClock && !wasClock){
 			drawClock();
 		}
