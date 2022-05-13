@@ -97,14 +97,15 @@ nav .start-contact, a:nth-child(5):hover~.animation {
   text-align: center;
 }
 
+#game{
+  border:1px solid #0363FB;
+}
 #welcome-header{
   color: white;
 }
 
 #game-table{
   margin: auto;
-  overflow: clip;
-
 }
 .user-label{
     color:aliceblue
@@ -248,11 +249,11 @@ h1{
   cursor: pointer;
   display: inline-block;
   font-family: din-round,sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: .8px;
   line-height: 20px;
   margin: 0;
+  margin-bottom: 5px;
   outline: none;
   overflow: visible;
   padding: 13px 16px;
@@ -381,6 +382,8 @@ h1{
   color: white;
   text-align: center;
   border:1px solid white;
+  background-image: url("images/pacback.webp");
+
 } 
 
 #lbl_settings{
