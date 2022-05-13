@@ -183,7 +183,7 @@ input[type=button]:hover{
     
 }
 input:focus {
-  background-color: #ddd;
+  background-color: rgb(170, 211, 237);
   outline: none;
 }
   

@@ -45,6 +45,7 @@ var wasClock=false;
 var hasClock=false;
 var hasMed=false;
 var keysDown;
+var g_finish = false;
 
 //settings
 var g_key_up = 38;
@@ -262,6 +263,7 @@ function PutFood(randomType){
 //game logic
 function Start() {
 	board = new Array();
+	g_finish = false;
 	numOfLifes=5;
 	resetLifes();
 	shape.i = 5;
@@ -640,6 +642,9 @@ function Draw(x) {
 			}
 
 		}
+	}
+	if(g_finish){
+		return;
 	}
 }
 
@@ -1168,14 +1173,20 @@ function UpdatePosition() {
 		return;
 	}
 	else if(food_on_board() == 0){
-		clearAllInterval();
-		if (confirm("Winner!!! \nYou eat all the food and you have "+score+" points!\n Do you want to play again?")) {
-			f_ChangeSettings();
+		if(!g_finish){
+			g_finish = true;
+			Draw();
 		}
-		else {
-			welcome();
-		}
-		return;
+		else{
+			clearAllInterval();
+			if (confirm("Winner!!! \nYou ate all the food and you have "+score+" points!\n Do you want to play again?")) {
+				f_ChangeSettings();
+			}
+			else {
+				welcome();
+			}
+			return;
+		}	
 	}
 	else {
 		Draw(x);
