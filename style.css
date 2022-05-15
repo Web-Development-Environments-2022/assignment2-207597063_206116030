@@ -245,7 +245,7 @@ h1{
   border-radius: 16px;
   border-width: 0 0 4px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: black;
   cursor: pointer;
   display: inline-block;
   font-family: din-round,sans-serif;
@@ -354,6 +354,10 @@ h1{
   text-align: center;
 }
 
+#random_setting{
+  color: black;
+}
+
 
 #continue{
   height: 40px;
@@ -385,6 +389,11 @@ h1{
   background-image: url("images/pacback.webp");
 
 } 
+
+#startBTN{
+  color: #FFFFFF;
+}
+
 
 #lbl_settings{
   font-size: x-large;

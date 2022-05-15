@@ -139,7 +139,7 @@
 				  <label for="monsters_amount_settings" class="Rplaceholder">Amount of Monsters</label>
 			  </div>
 
-			<button type="text" class="Rsubmit" onclick="random_settings()">Random</button>
+			<button type="text" id="random_setting" class="Rsubmit" onclick="random_settings()">Random</button>
 			<button type="text" class="Rsubmit" onclick="confirmation()">Continue</button>
 
 		  </div>
@@ -287,7 +287,7 @@
 							<p>
 								<button class="button-19" type="button" onclick="f_ChangeSettings()">back</button>
 								<button class="button-19" type="button" onclick="random_settings()">random</button>
-								<button class="button-19" type="button" onclick="saveSettings()">start</button>		
+								<button class="button-19" type="button" onclick="saveSettings()" id="startBTN">start</button>		
 							</p>
 						</div>
 						<div id="newGame_button" hidden>

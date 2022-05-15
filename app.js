@@ -41,7 +41,6 @@ var userTitle = "";
 var modelOn=false;
 var numOfLifes=5;
 var lastPrased=4;
-var wasClock=false;
 var hasClock=false;
 var hasMed=false;
 var keysDown;
@@ -263,6 +262,7 @@ function PutFood(randomType){
 //game logic
 function Start() {
 	board = new Array();
+	hasMed=false;
 	g_finish = false;
 	numOfLifes=5;
 	resetLifes();
@@ -282,7 +282,6 @@ function Start() {
 	angShape.j=6;
 	angShape.live = true;
 	hasClock=false;
-	wasClock=false;
 	pac_color = "yellow";
 	var cnt = 144;
 	var pacman_remain = 1;
@@ -300,7 +299,7 @@ function Start() {
 	}
 	else if(g_monsters_settings==2){
 		interval2=setInterval(UpdateMonster1Position, 1000);
-		interval3=setInterval(UpdateMonster2Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 800);
 		m3Shape.i = 100;
 		m3Shape.j = 100;
 		m4Shape.i = 100;
@@ -308,14 +307,14 @@ function Start() {
 	}
 	else if(g_monsters_settings==3){
 		interval2=setInterval(UpdateMonster1Position, 1000);
-		interval3=setInterval(UpdateMonster2Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 800);
 		interval4=setInterval(UpdateMonster3Position, 1000);
 		m4Shape.i = 100;
 		m4Shape.j = 100;
 	}
 	else if(g_monsters_settings==4){
 		interval2=setInterval(UpdateMonster1Position, 1000);
-		interval3=setInterval(UpdateMonster2Position, 1000);
+		interval3=setInterval(UpdateMonster2Position, 800);
 		interval4=setInterval(UpdateMonster3Position, 1000);
 		interval5=setInterval(UpdateMonster4Position, 1000);
 	}
@@ -1122,7 +1121,6 @@ function UpdatePosition() {
 		clock_sound.play();
 		g_time_settings = parseInt(g_time_settings) + 20;
 		hasClock=false;
-		wasClock=true;
 		board[shape.i][shape.j] = 0;
 	}
 	board[shape.i][shape.j] = 2;
@@ -1140,7 +1138,7 @@ function UpdatePosition() {
 
 
 	if(g_time_settings-time_elapsed<40){
-		if(!hasClock && !wasClock){
+		if(!hasClock){
 			drawClock();
 		}
 	}
