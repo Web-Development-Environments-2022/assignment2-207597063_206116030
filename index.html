@@ -8,14 +8,14 @@
 
 	<body>
 		
-
+		<!-- header div -->
 		<div id="header">
 			<img id="header-img3" src="images/pacLogo2.jpg" />
 			<br>
 			<strong id="writers">Yuval felendler & Amit partuk</strong>
 		</div>
 
-
+		<!-- menu div -->
 		<nav>
 			<a href="#welcome" onclick="welcome()"><b>Welcome</b></a>
 			<a href="#Register" onclick="showRegister()"><b>Register</b></a>
@@ -25,7 +25,7 @@
 			<div class="animation start-home"></div>
 		</nav>
 
-
+		<!-- wlecome div -->
 		<div id="welcome" >
 			<h1 id="welcome-header"> Welcome to the best Pac-man game!!</h1>
 			<input type="button" id="btnShowRegister" value="Register" onclick="showRegister()" />
@@ -33,7 +33,7 @@
 
 		</div>
 
-
+		<!-- register div -->
 		<div id="Register">
 			<div class="Rtitle">Sign up</div>
 			<div class="Rsubtitle">Let's create your account!</div>
@@ -77,12 +77,12 @@
 
 		  </div>
 
-
+		<!-- under register div - go to login  -->
 		  <div id="alredySignin" class="AlredySignin"  hidden>
 			<p>Already have an account? <a href="#Login" onclick="showLogin()">Sign in</a>.</p>
 		</div>
 
-
+		<!-- choose settings div -->
 		<div id="ChangeSettings">
 			<div class="Rtitle">Change Settings</div>
 			<div class="Rsubtitle">Let's create your account!</div>
@@ -144,7 +144,7 @@
 
 		  </div>
 
-
+		<!-- Login div -->
 		<div id="Login" >
 			<div class="Ltitle">Login</div>
 			<div class="Lsubtitle">Welcome back!</div>
@@ -173,7 +173,7 @@
 
 
 
-
+		<!-- about model -->
 		<div id="about" class="modal">
 			<div class="modal-content">
 			  <span class="close" onclick="closeModel()">&times;</span>
@@ -216,11 +216,12 @@
 
 			
 
-
+		<!-- game table div -->
 		<div>
 			<table id="game-table">
 				<tr>
 					<td>
+						<!-- life div -->
 						<div id="life" hidden >
 							<img id="life1" src="images/life.png">
 							<img id="life2" src="images/life.png">
@@ -228,22 +229,26 @@
 							<img id="life4" src="images/life.png">
 							<img id="life5" src="images/life.png">	
 						</div>
+						<!-- score div -->
 
 						<div id="score" hidden >
 							<label class="user-label" id="scorelabel" for="lblScore">SCORE:</label>
 							<input class="lbl" id="lblScore" type="text" />
 						</div>
-						
+
+						<!-- time div -->
 						<div id="time" hidden >
 							<label class="user-label" id="timelabel" for="lblTime">TIME:</label>
 							<input class="lbl" id="lblTime" type="text" />
 						</div>
-						
+
+						<!-- name div -->
 						<div id="userName" hidden >
 							<label class="user-label" for="lblUser">PLAYER:</label>
 							<input class="lbl" id="lblUser" type="text" />
 						</div>
-						
+
+						<!-- settings div -->
 						<div id="Confirmation_settings" hidden>
 							<span id="lbl_settings">
 								<lable>up: </lable>
@@ -280,7 +285,7 @@
 
 						</div>
 						
-				
+						<!-- settings buttons div -->
 						<div id="setting_button" hidden>
 							<p>
 								<button class="button-19" type="button" onclick="f_ChangeSettings()">back</button>
@@ -288,12 +293,15 @@
 								<button class="button-19" type="button" onclick="saveSettings()" id="startBTN">start</button>		
 							</p>
 						</div>
+
+						<!-- new game button div -->
 						<div id="newGame_button" hidden>
 							<br/>
 							<button class="button-19" onclick="f_ChangeSettings()">New Game</button>
 						</div>
 					</td>
 					<td rowspan="2">
+						<!-- game div - canvas -->
 						<div id="game" hidden>
 							<canvas id="canvas" height="715" width="715" ></canvas>
 						</div>
@@ -304,7 +312,7 @@
 
 		</div>
 
-
+		<!-- footer div -->
 		<div id="footer">
 			<h2 id="footer-header">Thank you for playing pacMan 2.0</h2>
 			<p id="footer-by">

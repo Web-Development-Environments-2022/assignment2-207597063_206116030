@@ -93,6 +93,7 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 	font-family: 'Cherry Swash', cursive;
 }
 
+/*************************** content divs **************************/
 #welcome{
   text-align: center;
 }
@@ -196,6 +197,7 @@ h1{
   color: black;
 }
 
+/****************************** model **********************/
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -226,16 +228,12 @@ h1{
   font-weight: bold;
 }
 
-
-
 .close:hover,
 .close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
-
-
 
 /*********************** Button ************************/
 .button-19 {
@@ -306,7 +304,7 @@ h1{
   background-image: linear-gradient(to bottom, #30e3cb, #2bc4ad);
   text-decoration: none;
 }
-/****************************************************************/
+/******************************Game screen **********************************/
 
 .lbl{
   width: 40%;

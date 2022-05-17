@@ -73,6 +73,7 @@ med.src='images/pill.png';
 angel.src='images/angel.png';
 clock.src='images/clock.png';
 
+//stop the screen from scrolling when pressing the pacmen moving keys
 var arrow_keys_handler = function(e) {
     switch(e.code){
         case "ArrowUp": case "ArrowDown": case "ArrowLeft": case "ArrowRight": 
@@ -107,6 +108,7 @@ function saveSettings(){
 	f_Game();
 }
 
+//sets the game setting after user input
 function confirmation(){
 	var c_up = document.getElementById("up").value;
 	var c_down = document.getElementById("down").value;
@@ -139,6 +141,7 @@ function confirmation(){
 	$("#setting_button").show();
 }
 
+//set the random settings if user pressed random button
 function random_settings(){
 	
 	document.getElementById("up_conf").textContent = "ArrowUp";
@@ -415,7 +418,7 @@ function Start() {
 			}
 		}
 	}
-	drawAfterHit();
+	drawAfterHit(); //sets the pacman in random location - sets monsters in place
 	while (g_food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		randomType = Math.floor(Math.random() * (3 - 1 + 1) ) + 1;
@@ -441,7 +444,7 @@ function Start() {
 
 
 }
-
+//finding random empty cells to put food 
 function findRandomEmptyCell(board) {
 	var i = Math.floor(Math.random() * 11 + 1);
 	var j = Math.floor(Math.random() * 11+ 1);
@@ -452,6 +455,7 @@ function findRandomEmptyCell(board) {
 	return [i, j];
 }
 
+//getting the pressed key from user
 function GetKeyPressed() {
 	if (keysDown[g_key_up]) { //up
 		return 1;
@@ -467,7 +471,7 @@ function GetKeyPressed() {
 	}
 }
 
-function samePositionAngel(){ //if angel (+50 points) touch pacman
+function samePositionAngel(){ //if angel (+50 points) touches pacman
 	if(angShape.i == shape.i && angShape.j == shape.j){
 		return true;
 	}
@@ -534,26 +538,26 @@ function Draw(x) {
 			window.clearInterval(intervalAngel);
 		}
 	}
-	if(g_monsters_settings == 1){
+	if(g_monsters_settings == 1){ //draw only 1 monster
 		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
 	}
-	else if(g_monsters_settings == 2){
+	else if(g_monsters_settings == 2){ //draw only 2 monsters
 		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
 		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);	
 	}
-	else if(g_monsters_settings == 3){
+	else if(g_monsters_settings == 3){ //draw only 3 monsters
 		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
 		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);
 		context.drawImage(monster1,m3Shape.i * 60 + 15,m3Shape.j * 60 + 15);
 	}
-	else{
+	else{ //draw only 4 monsters
 		context.drawImage(monster1,m1Shape.i * 60 + 15,m1Shape.j * 60 + 15);
 		context.drawImage(monster2,m2Shape.i * 60 + 15,m2Shape.j * 60 + 15);
 		context.drawImage(monster1,m3Shape.i * 60 + 15,m3Shape.j * 60 + 15);
 		context.drawImage(monster1,m4Shape.i * 60 + 15,m4Shape.j * 60 + 15);
 	}
 	
-	if(angShape.live == true){
+	if(angShape.live == true){ //if angel did not catched yet then draw him
 		context.drawImage(angel,angShape.i * 60 + 15,angShape.j * 60 + 15);
 	}
 	
@@ -647,6 +651,7 @@ function Draw(x) {
 	}
 }
 
+//function thet updates the angel position - used in Set interval
 function UpdateAngelPosition(){
 	var random = Math.floor(Math.random() * (4) ) + 1;
 	var bool = true;
@@ -679,7 +684,7 @@ function UpdateAngelPosition(){
 	}
 	
 }
-
+//function thet updates the monster1 position - used in Set interval
 function UpdateMonster1Position(){
 	var maxSize=17;
 	var choice=0;
@@ -765,7 +770,7 @@ function UpdateMonster1Position(){
 
 	
 }
-
+//function thet updates the monster2 position - used in Set interval
 function UpdateMonster2Position(){
 	var maxSize=17;
 	var choice=0;
@@ -850,7 +855,7 @@ function UpdateMonster2Position(){
 	//board[m2Shape.i][m2Shape.j]=9;
 
 }
-
+//function thet updates the monster3 position - used in Set interval
 function UpdateMonster3Position(){
 	var maxSize=17;
 	var choice=0;
@@ -935,7 +940,7 @@ function UpdateMonster3Position(){
 	//board[m3Shape.i][m3Shape.j]=5;
 
 }
-
+//function thet updates the monster4 position - used in Set interval
 function UpdateMonster4Position(){
 	var maxSize=17;
 	var choice=0;
@@ -1021,7 +1026,7 @@ function UpdateMonster4Position(){
 
 }
 
-
+// clear all game intervals - causes the game to stop if user moved to other div throw the menu or stopped the game
 function clearAllInterval(){
 	window.clearInterval(interval);
 	window.clearInterval(interval2);
@@ -1043,6 +1048,7 @@ function food_on_board(){
 	return count;
 }
 
+//function thet updates the pacman position - used in Set interval and moved with the pressed key
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
@@ -1334,7 +1340,7 @@ function drawAfterHit(){
 
 
 }
-
+//shows all 5 hearts in the game - new game
 function resetLifes(){
 	$("#life5").show();
 	$("#life4").show();
@@ -1343,6 +1349,7 @@ function resetLifes(){
 	$("#life1").show();
 
 }
+//adds one heart to the count of hearts
 function addLife(){
 	if(numOfLifes==5){
 		$("#life5").show();
@@ -1357,6 +1364,7 @@ function addLife(){
 		$("#life2").show();
 	}
 }
+//removes one heart from the count of hearts
 function removeLife(){
 	if(numOfLifes==4){
 		$("#life5").hide();
@@ -1381,6 +1389,7 @@ function removeLife(){
 
 
 //Presentation  logic
+//stopes the game and music , hides all the divs - function will be executed every time the user switch pages
 function unShowAll(){
 	if(!audio.paused){
 		audio.pause();
@@ -1411,7 +1420,7 @@ function unShowAll(){
 	document.getElementById("Confirmation_settings").style.textAlign = "center";
 
 }
-
+//the main function game
 function f_Game(){
 	unShowAll();
 	var canvas = document.getElementById("canvas");
@@ -1428,14 +1437,14 @@ function f_Game(){
 	$("#Confirmation_settings").show();
 	Start();
 }
-
+//show welcome div
 function welcome(){
 	unShowAll();
 	$("#welcome").show();
 	window.location.href='#welcome';
 }
 
-
+//show settings div
 function f_ChangeSettings(){
 	clearAllInterval();
 	unShowAll();
@@ -1512,13 +1521,14 @@ function f_ChangeSettings(){
 	  });	  
 }
 
+//show register div
 function showRegister(){
 	unShowAll();
 	$("#Register").show();
 	$("#alredySignin").show();
 	window.location.href='#Register';
 }
-
+//show login div
 function showLogin(){
 	unShowAll();
 	$("#Login").show();
@@ -1554,6 +1564,7 @@ window.addEventListener("keyup", function (e) {
 });
 /////// end model//////
 
+//function will check register fields and create the user and save him or raise alert if something is wrong
 function registerComplete(){ 
 	var rgularExp = {
         containsNumber : /\d+/,
@@ -1609,6 +1620,7 @@ function registerComplete(){
 	return;
 }
 
+//check the user is valid - exists in the users array and have the correct passweord
 function isUserValid(user, pass) {
 
 	const userLS = JSON.parse(localStorage.getItem(user));
@@ -1625,7 +1637,7 @@ function isUserValid(user, pass) {
 	}
   }
 
-
+//reads the user namd and passwrod from the login form - check valid fields and valid user with the helper function above
 function login(){
 	var pass= document.getElementById("pswLogin").value;
 	var user= document.getElementById("userLogin").value;
